@@ -25,7 +25,7 @@ public class Uproadpage {
 
         @RequestMapping(value = "/frontTest")
         public String frontTest(){
-        return "frontTest";
+        return "tables";
     }
 
         @PostMapping("/csvDD")
