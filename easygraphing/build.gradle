@@ -21,6 +21,8 @@ dependencies {
 	implementation 'org.wso2.brs:GreetingService_Service:2.2.0'
 	implementation 'org.wso2.brs:HealthCareService_Service:2.2.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('test') {
