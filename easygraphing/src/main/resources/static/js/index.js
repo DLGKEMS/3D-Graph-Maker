@@ -1,27 +1,34 @@
-import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const renderer = new THREE.WebGLRenderer();
+const canvasBox=document.getElementById('canvas-box');
+renderer.setSize( canvasBox.offsetWidth, canvasBox.offsetHeight );
+canvasBox.appendChild( renderer.domElement );
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const controls = new OrbitControls( camera, renderer.domElement );
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-const canvasBox=document.getElementById('canvas-box')
-canvasBox.appendChild( renderer.domElement );
+camera.position.set( 10, 10, 10 );
+controls.update();
 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
 
-camera.position.z = 5;
+makeGraph(1,10, scene);
+
+function makeGraph(index, value, scene){
+    const geometry = new THREE.BoxGeometry( 1, value, 1 );
+    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const cube = new THREE.Mesh( geometry, material );
+    scene.add( cube );
+}
+
 
 function animate() {
     requestAnimationFrame( animate );
-
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
+    controls.update();
 }
+animate()
 
-animate();
+renderer.render( scene, camera );
