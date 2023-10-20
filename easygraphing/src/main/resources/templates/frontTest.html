@@ -19,6 +19,38 @@
                 }
             }
         </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.5/dat.gui.min.js"></script>
+        <script>
+            var vertexShader = `
+    varying vec2 vUv;
+    void main()	{
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }
+  `;
+            var fragmentShader = `
+		//#extension GL_OES_standard_derivatives : enable
+
+    varying vec2 vUv;
+    uniform float thickness;
+    uniform vec3 color;
+
+    float edgeFactor(vec2 p){
+    	vec2 grid = abs(fract(p - 0.5) - 0.5) / fwidth(p) / thickness;
+  		return min(grid.x, grid.y);
+    }
+
+    void main() {
+
+      float a = clamp(edgeFactor(vUv), 0., 1.);
+
+      vec3 c = mix(vec3(0), color, a);
+
+      gl_FragColor = vec4(c, 1.0);
+    }
+  `;
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.5/dat.gui.min.js"></script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
