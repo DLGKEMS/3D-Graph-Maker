@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 const fontSize = 5;
 
@@ -20,7 +21,7 @@ function init(){
     controls.update();
 
     // set background
-    scene.background= new THREE.Color(0xb2b2b2);
+    scene.background= new THREE.Color(0xffffff);
 
     // set grid
     const gridHelper = new THREE.GridHelper( 100, 100 );
@@ -65,26 +66,30 @@ function makeGraph(index, value, scene){
     scene.add( cube );
 
     // text
-    const textGeometry = new TextGeometry( 'Hello three.js!', {
-        size: 80,
-        height: 5,
-        curveSegments: 12,
-        bevelEnabled: true,
-        bevelThickness: 10,
-        bevelSize: 8,
-        bevelOffset: 0,
-        bevelSegments: 5
-    } );
-    const textMaterial = new THREE.MeshBasicMaterial( { color: 0xb2b2b2 } );
-    const text = new THREE.Mesh( textGeometry, textMaterial );
+    let fontLoader = new FontLoader();
+    const url = "../font/helvetiker_regular.typeface.json";
+    fontLoader.load(url, (font) => {
+        let geometry = new TextGeometry(
+            value.toString(),
+            {
+                font: font,
+                size: 0.5,
+                height: 0,
+                curveSegments: 12,
+                width: 50
+            }
+        );
+        geometry.computeBoundingBox();
+        let xMid = -0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+        geometry.translate( xMid, 0, 0 );
+        let material = new THREE.MeshBasicMaterial({
+            color: 0x000000,
+        });
+        let mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(index*1.3, value+0.2, 0);
+        scene.add(mesh);
 
-
-    text.position.z = 0;
-
-    text.rotation.x = 0;
-    text.rotation.y = Math.PI * 2;
-
-    scene.add(text);
+    });
 
 }
 init()
