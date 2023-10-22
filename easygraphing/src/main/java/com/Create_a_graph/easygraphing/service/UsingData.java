@@ -29,7 +29,6 @@ public class UsingData {
         for(int i=0; i<jsonStoreArray.length(); i++){
             jsonObject = (JSONObject) jsonStoreArray.get(i);
             jasonArrayList[i]=(jsonObject.getString(userqustion));
-            //System.out.println("jason 리스트 : " + jasonArrayList[i]);
         }
 
         Map<String, Integer> count = new HashMap<>(); // 갯수를 넣을 Map
@@ -37,13 +36,14 @@ public class UsingData {
         Object[] unreduplicationkey = Arrays.stream(jasonArrayList).distinct().toArray();
         //ㄴ중복 허용 x > 그래프 높이 값을 얻기 위한 값을 추출할때 사용
         for(int i=0;i< unreduplicationkey.length;i++) {
-            //System.out.println("완성 : " + newjasonArrayList[i]);
-            count.put(jasonArrayList[i].toString(),0);
+            if(unreduplicationkey[i].toString() !=null && !unreduplicationkey[i].equals("")){
+                count.put(unreduplicationkey[i].toString(), 0);
+            }
         }
-
+        System.out.println("countkey : " + count.keySet());
         for(int i = 0; i<jsonStoreArray.length();i++){
             jsonObject = (JSONObject) jsonStoreArray.get(i);
-            for(int j = 0; j<unreduplicationkey.length; j++) {
+            for(int j = 0; j<count.size(); j++) {
                 if(jsonObject.getString(userqustion).equals(unreduplicationkey[j])){
                     count.put(unreduplicationkey[j].toString(), count.get(unreduplicationkey[j].toString())+ 1);
                 }
