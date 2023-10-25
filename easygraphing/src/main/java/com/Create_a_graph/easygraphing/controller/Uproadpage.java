@@ -56,7 +56,7 @@ public class Uproadpage {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/frontTest")
+    @GetMapping(value = "/frontTest")
     public String frontTest(){
         return "frontTest";
     }
