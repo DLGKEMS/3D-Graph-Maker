@@ -1,5 +1,8 @@
 package com.Create_a_graph.easygraphing.repository;
 
+import org.json.JSONArray;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +10,8 @@ import java.util.Map;
 
 public class MemoryJson implements JsonRepository{
     private  static List<Map<String, Object>> storeList = new ArrayList<Map<String, Object>>();
+    private static Map<String, Object> complitStore = new HashMap();
+
     @Override
     public Map<String, Object> save(String[] key, Object[] value, int size) {
         Map<String, Object> store = new HashMap<>();
@@ -20,7 +25,15 @@ public class MemoryJson implements JsonRepository{
     public List<Map<String, Object>> getList() {
         return storeList;
     }
+    @Override
+    public Map completeJson(String[] key, Object[] value, int size){
+        for(int i=0; i<size; i++){
+            complitStore.put(key[i].trim(), value[i]);
+        }
+        return complitStore;
+    }
     public void clearStore(){
         storeList.clear();
     } // storeList 객체안에 내용을 다 지우는 메소드
+
 }

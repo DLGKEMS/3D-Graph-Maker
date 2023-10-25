@@ -12,22 +12,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+//json저장 테스트용
+import com.Create_a_graph.easygraphing.repository.MemoryJson;
 
 @Controller
 public class Uproadpage {
     @Autowired
     private FileUploadService fileUploadService;
     private UsingData filedata;
+    //test
+    private MemoryJson jsonstore;
 
     public Uproadpage(UsingData filedata) {
         this.filedata = filedata;
-    }
+    } //< 이게 없으면 null오류남
 
     @RequestMapping(value = "/test")
     public String test() {
         try {
+            Map<String, Object> complitMap = new HashMap<>();
+            complitMap = filedata.data("자치구명");
             filedata.data("자치구명");
+            System.out.println("compltMap : " + complitMap);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -61,15 +71,14 @@ public class Uproadpage {
     //파일 데이터 저장
     @PostMapping("/csvDD")
     //public String fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-    public String fileUpload(@RequestParam("file") MultipartFile file) {
+    public void fileUpload(@RequestParam("file") MultipartFile file) {
         try {
             fileUploadService.savefile(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return "redirect:/";
+        //return "redirect:/";
     }
-
 }
 
 //

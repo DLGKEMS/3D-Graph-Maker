@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class UsingData {
-    public void data(String userqustion) throws JsonProcessingException {
+    public Map data(String userqustion) throws JsonProcessingException {
         MemoryJson memoryJson = new MemoryJson();
         List<Map<String, Object>> storeData = memoryJson.getList();
         //System.out.println("csvData : " + csvData);
@@ -23,7 +23,8 @@ public class UsingData {
         JSONArray jsonStoreArray = new JSONArray(jsonStoreData);
         //System.out.println("JsonArray : " + Array);
 
-        JSONObject jsonObject = new JSONObject();
+        //JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject;
         Object[] jasonArrayList = new String[jsonStoreArray.length()]; //중복 허용한 아이템
 
         for(int i=0; i<jsonStoreArray.length(); i++){
@@ -41,6 +42,16 @@ public class UsingData {
             }
         }
         System.out.println("countkey : " + count.keySet());
+//        for(int i = 0; i<jsonStoreArray.length();i++){
+//            jsonObject = (JSONObject) jsonStoreArray.get(i);
+//            for(int j = 0; j<count.size(); j++) {
+//                if(jsonObject.getString(userqustion).equals(unreduplicationkey[j])){
+//                    count.put(unreduplicationkey[j].toString(), count.get(unreduplicationkey[j].toString())+ 1);
+//                }
+//            }
+//        }
+//        System.out.println("Result : " + count);
+
         for(int i = 0; i<jsonStoreArray.length();i++){
             jsonObject = (JSONObject) jsonStoreArray.get(i);
             for(int j = 0; j<count.size(); j++) {
@@ -51,6 +62,7 @@ public class UsingData {
         }
         System.out.println("Result : " + count);
 
+        return count;
 //jsonObject.getString(userqustion) == newjasonArrayList[j]
         //Set<Map<String, Object>> set = new HashSet<Map<String, Object>>((Collection<? extends Map<String, Object>>) jsonObject.get(userqustion));
 
