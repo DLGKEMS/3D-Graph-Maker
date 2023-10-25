@@ -27,7 +27,7 @@ public class Uproadpage {
     @RequestMapping(value = "/test")
     public String test() {
         try {
-            filedata.data("age");
+            filedata.data("자치구명");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
