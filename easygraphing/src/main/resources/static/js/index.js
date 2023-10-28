@@ -5,7 +5,6 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { Reflector } from 'three/addons/objects/Reflector';
 
 const fontSize = 5;
-
 function init(){
     const renderer = new THREE.WebGLRenderer();
     const canvasBox=document.getElementById('canvas-box');

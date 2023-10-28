@@ -3,10 +3,11 @@ package com.Create_a_graph.easygraphing.service;
 import com.Create_a_graph.easygraphing.repository.MemoryJson;
 import com.fasterxml.jackson.databind.MappingIterator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONArray;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,23 +19,16 @@ import java.util.Map;
 
 @Service
 public class FileUploadService {
-
-    public void testfile(){
-        MemoryJson memoryJson = new MemoryJson();
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        list = memoryJson.getList();
-        System.out.println("완성본 : " + list);
-    }
-
     //파일 데이터 지우기
     public void clearStore(){
         MemoryJson memoryJson = new MemoryJson();
-        memoryJson.clearStore();
+        //memoryJson.clearStore();
     }
 
     //파일 데이터 저장
     public void savefile(MultipartFile file) throws IOException {
         try {
+            MemoryJson memoryJson = new MemoryJson();
             // Jackson CSV Mapper 생성
             CsvMapper csvMapper = new CsvMapper();
             CsvSchema csvSchema = CsvSchema.emptySchema().withHeader(); // 첫 번째 라인을 헤더로 사용
@@ -52,19 +46,19 @@ public class FileUploadService {
             str.deleteCharAt(str.length()-1);
 
             // 스트링 배열에 키 값을 ','로 split하여 저장
-            //
             String[] key = String.valueOf(str).split(",");
-            Object[] value = new Object[key.length];
-            MemoryJson memoryJson = new MemoryJson();
-            for(int i=0;i<csvData.size();i++){
-                for (int j =0; j<key.length; j++){
-                    value[j] = csvData.get(i).get(key[j].trim());
-                }
-                memoryJson.save(key,value, key.length);
-            } // 파일의 크기만큼 반복해 파일의 1번줄 부터 n줄까지 1줄씩 save함수를 호출해 storeList에 저장
+
+            memoryJson.setColum(key); //컬럼 저장
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonStoreData = objectMapper.writeValueAsString(csvData);
+
+            JSONArray jsonStoreArray = new JSONArray(jsonStoreData);
+
+            memoryJson.setJsonArray(jsonStoreArray); //JsonArray 저장
+
         } catch (Exception e) {
             e.printStackTrace();
-            //return null; // 예외 처리
         }
     }
 }

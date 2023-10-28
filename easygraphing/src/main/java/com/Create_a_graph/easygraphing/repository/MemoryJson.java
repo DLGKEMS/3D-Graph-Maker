@@ -1,6 +1,7 @@
 package com.Create_a_graph.easygraphing.repository;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -9,31 +10,38 @@ import java.util.List;
 import java.util.Map;
 
 public class MemoryJson implements JsonRepository{
-    private  static List<Map<String, Object>> storeList = new ArrayList<Map<String, Object>>();
-    private static Map<String, Object> complitStore = new HashMap();
+    private static JSONArray jsonArray;
+    private static String[] culumList;
+    private static JSONObject jsonObject;
 
-    @Override
-    public Map<String, Object> save(String[] key, Object[] value, int size) {
-        Map<String, Object> store = new HashMap<>();
-        for(int i=0; i<size;i++) {
-            store.put(key[i].trim(), value[i]);
-        }
-        storeList.add(store);
-        return store;
-    } // 키 배열과 value 배열 그리고 key의 갯수를 가져옴. Map객체를 만들어 storeList에 add해주는 메소드
-    @Override
-    public List<Map<String, Object>> getList() {
-        return storeList;
+////////////////////////////////
+    public JSONArray getJsonArray(){
+        return jsonArray;
     }
-    @Override
-    public Map completeJson(String[] key, Object[] value, int size){
-        for(int i=0; i<size; i++){
-            complitStore.put(key[i].trim(), value[i]);
-        }
-        return complitStore;
+    public void setJsonArray(JSONArray jsonArray1){
+        MemoryJson.jsonArray = jsonArray1;
+        //System.out.println("JsonArray : " + MemoryJson.jsonArray);
     }
-    public void clearStore(){
-        storeList.clear();
-    } // storeList 객체안에 내용을 다 지우는 메소드
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
 
+    public void setJsonObject(JSONObject jsonObject) {
+        MemoryJson.jsonObject = jsonObject;
+        System.out.println("JsonObject : " + MemoryJson.jsonObject);
+    }
+
+    public void setColum(String[] keys){
+        String[] clonkey = new String[keys.length];
+        for(int i=0;i < keys.length;i++){
+            clonkey[i] = keys[i].trim();
+        }
+        MemoryJson.culumList = clonkey;
+        for(int i=0;i<MemoryJson.culumList.length;i++) {
+            System.out.println("Colum" + i + " : " + MemoryJson.culumList[i]);
+        }
+    }
+    public String[] getColum(){
+        return culumList;
+    }
 }

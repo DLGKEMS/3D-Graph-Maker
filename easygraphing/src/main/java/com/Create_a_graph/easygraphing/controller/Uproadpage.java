@@ -1,8 +1,10 @@
 package com.Create_a_graph.easygraphing.controller;
 
 import com.Create_a_graph.easygraphing.service.FileUploadService;
-import com.Create_a_graph.easygraphing.service.UsingData;
+import com.Create_a_graph.easygraphing.service.Data_Processing;
+import com.Create_a_graph.easygraphing.service.GetColumn;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,32 +14,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-//json저장 테스트용
-import com.Create_a_graph.easygraphing.repository.MemoryJson;
 
 @Controller
 public class Uproadpage {
     @Autowired
     private FileUploadService fileUploadService;
-    private UsingData filedata;
+    private Data_Processing filedata;
     //test
-    private MemoryJson jsonstore;
 
-    public Uproadpage(UsingData filedata) {
+    public Uproadpage(Data_Processing filedata) {
         this.filedata = filedata;
     } //< 이게 없으면 null오류남
 
     @RequestMapping(value = "/test")
     public String test() {
         try {
-            Map<String, Object> complitMap = new HashMap<>();
-            complitMap = filedata.data("자치구명");
+            JSONObject complitMap;
             filedata.data("자치구명");
-            System.out.println("compltMap : " + complitMap);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -50,22 +43,10 @@ public class Uproadpage {
     }
 
     //저장된 데이터 리스트 출력
-    @RequestMapping(value = "/hello")
-    public String testfile(){
-        fileUploadService.testfile();
-        return "redirect:/";
-    }
 
     @GetMapping(value = "/frontTest")
     public String frontTest(){
         return "frontTest";
-    }
-
-    //파일 데이터 지우기
-    @RequestMapping(value = "webtest")
-    public String listclear(){
-        fileUploadService.clearStore();
-        return "/hello";
     }
 
     //파일 데이터 저장
