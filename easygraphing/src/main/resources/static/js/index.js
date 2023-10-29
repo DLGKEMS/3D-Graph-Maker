@@ -5,7 +5,8 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { Reflector } from 'three/addons/objects/Reflector';
 
 const fontSize = 5;
-function init(){
+
+function init(graphType){
     const renderer = new THREE.WebGLRenderer();
     const canvasBox=document.getElementById('canvas-box');
     const scene = new THREE.Scene();
@@ -38,8 +39,8 @@ function init(){
     scene.add( dirLight );
 
     // set background
-    scene.background = new THREE.Color( 0xe2e2e2 );
-    scene.fog = new THREE.Fog( 0xe2e2e2, 10,80 );
+    scene.background = new THREE.Color( 0xf2f2f2 );
+    scene.fog = new THREE.Fog( 0xf2f2f2, 10,80 );
     let mirrorGeometry = new THREE.PlaneBufferGeometry( 100, 1000, 100, 1000 );
     let mirror = new Reflector( mirrorGeometry, {
         clipBias: 0.01,
@@ -154,5 +155,5 @@ function makePieGraph(data,scene){
     });
 }
 
-init()
+init(document.getElementById("graph-type").value)
 
