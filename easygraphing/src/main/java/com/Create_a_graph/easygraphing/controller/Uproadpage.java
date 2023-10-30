@@ -1,5 +1,6 @@
 package com.Create_a_graph.easygraphing.controller;
 
+import com.Create_a_graph.easygraphing.repository.MemoryJson;
 import com.Create_a_graph.easygraphing.service.FileUploadService;
 import com.Create_a_graph.easygraphing.service.Data_Processing;
 import com.Create_a_graph.easygraphing.service.GetColumn;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class Uproadpage {
@@ -44,10 +48,10 @@ public class Uproadpage {
 
     //저장된 데이터 리스트 출력
 
-    @GetMapping(value = "/frontTest")
-    public String frontTest(){
-        return "frontTest";
-    }
+//    @GetMapping(value = "/frontTest")
+//    public String frontTest(){
+//        return "frontTest";
+//    }
 
     //파일 데이터 저장
     @PostMapping("/csvDD")
@@ -59,6 +63,20 @@ public class Uproadpage {
             throw new RuntimeException(e);
         }
         //return "redirect:/";
+    }
+
+    @GetMapping("/data")
+    public String showData(Model model) {
+        MemoryJson memoryJson = new MemoryJson();
+        Map<String, Integer> jsonData = new HashMap<>();
+        jsonData = memoryJson.getMap();
+        System.out.println(jsonData);
+//        jsonData.put("동대문구", 80);
+//        jsonData.put("중랑구", 93);
+//        jsonData.put("은평구", 233);
+//        jsonData.put("강남구", 976);
+        model.addAttribute("jsonData", jsonData);
+        return "frontTest";
     }
 }
 

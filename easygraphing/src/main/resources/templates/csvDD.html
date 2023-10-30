@@ -2,24 +2,73 @@
 <html>
 <head>
   <title>CSV 업로드</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <link href="/css/customStyles.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </head>
-<body>
-<h1>CSV 파일 업로드</h1>
-<form action="/csvDD" method="POST" enctype="multipart/form-data">
-  <input type="file" name="file" accept=".csv" required>
-  <button type="submit">업로드</button>
-</form>
 
-<form action="get_test" method="get">
-  <input type="text">
-  <textarea>get method check</textarea>
-  <button type="submit">test now!</button>
-</form>
-
-<form action="test">
-  <input type="text">
-  <textarea>값이 자바스크립트로 나오는지 확인</textarea>
-  <button type="submit">사용</button>
-</form>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+  <a class="navbar-brand ps-3" href="index.html">3D Graph Maker</a>
+</nav>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid px-4">
+        <h1 class="mt-4">CSV 파일 업로드</h1>
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Upload CSV
+          </div>
+          <div class="card-body">
+            <div class="container">
+              <div class ="row mb-3">
+                <form action="/csvDD" method="POST" enctype="multipart/form-data">
+                  <input class="form-control" id="formFile" type="file" name="file" accept=".csv" required>
+                  <div class = "d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary m-1">업로드</button>
+                  </div>
+                </form>
+                <form action="test">
+                  <div class = "d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary m-1">사용</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Test
+          </div>
+          <div class="card-body p-0">
+            <form action="get_test" method="get">
+              <input type="text">
+              <textarea>get method check</textarea>
+              <button type="submit">test now!</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <input type="hidden" id="graph-type" value="bar">
+  <input type="hidden" id="columnData" value="['w','x','y','z']">
+  <input type="hidden" id="resultData" value="{w:40, x:50,y:30,z:80}">
+</div>
+<script src="/js/index.js" type="module"></script>
+<script src="/js/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="/js/datatables-simple-demo.js"></script>
 </body>
+
 </html>

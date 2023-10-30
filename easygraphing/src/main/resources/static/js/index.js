@@ -6,7 +6,19 @@ import { Reflector } from 'three/addons/objects/Reflector';
 
 const fontSize = 5;
 
-function init(graphType){
+function init(graphType,resultData){
+    // 문자열에서 중괄호와 쉼표를 제거하고 key-value 쌍을 배열로 추출
+    var dataArray = resultData
+        .replace(/[{()}]/g, '') // 중괄호 제거
+        .split(', ') // 쉼표와 공백을 기준으로 분할
+
+    // 배열을 객체로 변환
+    var dataObject = {};
+    dataArray.forEach(function(item) {
+        var parts = item.split('=');
+        dataObject[parts[0]] = parseInt(parts[1]); // key와 value를 객체에 추가
+    });
+
     const renderer = new THREE.WebGLRenderer();
     const canvasBox=document.getElementById('canvas-box');
     const scene = new THREE.Scene();
@@ -41,45 +53,48 @@ function init(graphType){
     // set background
     scene.background = new THREE.Color( 0xf2f2f2 );
     scene.fog = new THREE.Fog( 0xf2f2f2, 10,80 );
-    let mirrorGeometry = new THREE.PlaneBufferGeometry( 100, 1000, 100, 1000 );
-    let mirror = new Reflector( mirrorGeometry, {
-        clipBias: 0.01,
-        textureWidth: window.innerWidth * window.devicePixelRatio,
-        textureHeight: window.innerHeight * window.devicePixelRatio,
-        color: 0x777777,
-        opacity: 0.1
-    } );
-    mirror.position.y = 0
-    mirror.rotateX(  - Math.PI / 2 );
-    scene.add( mirror );
+    // let mirrorGeometry = new THREE.PlaneBufferGeometry( 100, 1000, 100, 1000 );
+    // let mirror = new Reflector( mirrorGeometry, {
+    //     clipBias: 0.01,
+    //     textureWidth: window.innerWidth * window.devicePixelRatio,
+    //     textureHeight: window.innerHeight * window.devicePixelRatio,
+    //     color: 0x777777,
+    //     opacity: 0.1
+    // } );
+    // mirror.position.y = 0
+    // mirror.rotateX(  - Math.PI / 2 );
+    // scene.add( mirror );
     // set bottom
-    // const mesh = new THREE.Mesh(
-    //     new THREE.PlaneGeometry( 500, 500 ),
-    //     new THREE.MeshStandardMaterial({
-    //         blur: [300,100],
-    //         resolution:2048,
-    //         roughness:0,
-    //         metalness:0.5,
-    //         color: 'white'
-    //     })
-    // )
-    // mesh.rotation.x = - Math.PI / 2;
-    // mesh.receiveShadow = true;
-    // scene.add( mesh );
+    const mesh = new THREE.Mesh(
+        new THREE.PlaneGeometry( 500, 500 ),
+        new THREE.MeshStandardMaterial({
+            blur: [300,100],
+            resolution:2048,
+            roughness:0,
+            metalness:0.5,
+            color: 'white'
+        })
+    )
+    mesh.rotation.x = - Math.PI / 2;
+    mesh.receiveShadow = true;
+    scene.add( mesh );
 
     // set grid
     // const gridHelper = new THREE.GridHelper( 100, 100 );
     // scene.add( gridHelper );
 
-    makeGraph(1,10, scene);
-    makeGraph(2,5, scene);
-    makeGraph(3,8, scene);
+    let count = 0;
+    Object.keys(dataObject).forEach(function(key) {
+        makeGraph(count,dataObject[key], scene);
+        count+=1;
+        // console.log(key + ': ' + dataObject[key]);
+    });
 
-    makePieGraph([
-        { value: 30, color: 0xFF5733 },
-        { value: 20, color: 0x33FF57 },
-        { value: 50, color: 0x5733FF }
-    ],scene)
+    // makePieGraph([
+    //     { value: 30, color: 0xFF5733 },
+    //     { value: 20, color: 0x33FF57 },
+    //     { value: 50, color: 0x5733FF }
+    // ],scene)
 
     // orbitcontrol을 사용하기 위해서는 애니메이션이 실행되어야 한다.(boiler)
     animate()
@@ -110,8 +125,8 @@ function makeGraph(index, value, scene){
     const cube = new THREE.Mesh( geom, material );
     cube.material.uniforms.color.value.set(Math.random() * 0xffffff);
     console.log(cube)
-    cube.scale.y = value;
-    cube.position.set(index*1.3, value/2, 0);
+    cube.scale.y = value *0.1;
+    cube.position.set(index*1.3, value/20, 0);
     scene.add( cube );
 
     // text
@@ -155,5 +170,5 @@ function makePieGraph(data,scene){
     });
 }
 
-init(document.getElementById("graph-type").value)
+init(document.getElementById("graph-type").value,document.getElementById("resultData").value)
 

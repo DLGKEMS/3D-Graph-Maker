@@ -18,17 +18,17 @@ public class testcont {
         this.getColumn = getColumn;
     }
 
-    @GetMapping("/data")
-    public String showData(Model model) {
-        MemoryJson memoryJson = new MemoryJson();
-        Map<String, Integer> jsonData = new HashMap<>();
-        jsonData = memoryJson.getMap();
-        System.out.println(jsonData);
-//        jsonData.put("동대문구", 80);
-//        jsonData.put("중랑구", 93);
-//        jsonData.put("은평구", 233);
-//        jsonData.put("강남구", 976);
-        model.addAttribute("jsonData", jsonData);
-        return "data";
-    }
+//    @GetMapping("/data")
+//    public String showData(Model model) {
+//        MemoryJson memoryJson = new MemoryJson();
+//        Map<String, Integer> jsonData = new HashMap<>();
+//        jsonData = memoryJson.getMap();
+//        System.out.println(jsonData);
+////        jsonData.put("동대문구", 80);
+////        jsonData.put("중랑구", 93);
+////        jsonData.put("은평구", 233);
+////        jsonData.put("강남구", 976);
+//        model.addAttribute("jsonData", jsonData);
+//        return "data";
+//    }
 }
