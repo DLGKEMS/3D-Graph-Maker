@@ -44,6 +44,10 @@ public class Data_Processing {
                 }
             }
         }
+
+        for(int i = 0; i<count.size(); i++){
+            memoryJson.setMap(unreduplicationkey[i].toString(), count.get(unreduplicationkey[i]));
+        } //html으로 보낼 map을 만드는 코드
         System.out.println("Result : " + count);
 
         memoryJson.setJsonObject(new JSONObject(count));

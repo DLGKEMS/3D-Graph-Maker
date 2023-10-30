@@ -2,17 +2,15 @@ package com.Create_a_graph.easygraphing.repository;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MemoryJson implements JsonRepository{
     private static JSONArray jsonArray;
     private static String[] culumList;
     private static JSONObject jsonObject;
+    private static Map<String, Integer> storeMap = new HashMap<String, Integer>();
 
 ////////////////////////////////
     public JSONArray getJsonArray(){
@@ -37,11 +35,18 @@ public class MemoryJson implements JsonRepository{
             clonkey[i] = keys[i].trim();
         }
         MemoryJson.culumList = clonkey;
-        for(int i=0;i<MemoryJson.culumList.length;i++) {
-            System.out.println("Colum" + i + " : " + MemoryJson.culumList[i]);
-        }
+//        for(int i=0;i<MemoryJson.culumList.length;i++) {
+//            System.out.println("Colum" + i + " : " + MemoryJson.culumList[i]);
+//        }
     }
     public String[] getColum(){
         return culumList;
+    }
+
+    public void setMap(String key, int value){
+        storeMap.put(key, value);
+    }
+    public Map<String, Integer> getMap(){
+        return storeMap;
     }
 }
