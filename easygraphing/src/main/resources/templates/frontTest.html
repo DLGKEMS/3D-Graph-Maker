@@ -121,7 +121,7 @@
             </div>
 <!--            <span th:text="${jsonData}"></span>-->
             <input type="hidden" id="graph-type" value="bar">
-            <input type="hidden" id="columnData" value="['w','x','y','z']">
+            <input type="hidden" id="columnData" th:value="${columData}">
             <input type="hidden" id="resultData" th:value="${jsonData}">
         </div>
         <script src="/js/index.js" type="module"></script>

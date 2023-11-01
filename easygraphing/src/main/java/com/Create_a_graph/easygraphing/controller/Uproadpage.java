@@ -38,7 +38,7 @@ public class Uproadpage {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return "redirect:/";
+        return "frontTest";
     }
 
     @GetMapping
@@ -58,6 +58,10 @@ public class Uproadpage {
     //public String fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
     public void fileUpload(@RequestParam("file") MultipartFile file) {
         try {
+            MemoryJson memoryJson = new MemoryJson();
+            if(memoryJson.getJsonArray() != null){
+                memoryJson.clearing();
+            }
             fileUploadService.savefile(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -65,19 +69,22 @@ public class Uproadpage {
         //return "redirect:/";
     }
 
-    @GetMapping("/data")
+    @GetMapping("frontTest")
     public String showData(Model model) {
         MemoryJson memoryJson = new MemoryJson();
         Map<String, Integer> jsonData = new HashMap<>();
         jsonData = memoryJson.getMap();
-        System.out.println(jsonData);
-//        jsonData.put("동대문구", 80);
-//        jsonData.put("중랑구", 93);
-//        jsonData.put("은평구", 233);
-//        jsonData.put("강남구", 976);
+        String[] colums = memoryJson.getColum();
         model.addAttribute("jsonData", jsonData);
+        model.addAttribute("columData", colums);
         return "frontTest";
     }
+//    @RequestMapping("clear")
+//    public String clearData(){
+//        MemoryJson memoryJson = new MemoryJson();
+//        memoryJson.clearing();
+//        return "/clear";
+//    }
 }
 
 //

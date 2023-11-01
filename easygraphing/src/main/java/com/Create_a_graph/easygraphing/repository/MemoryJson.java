@@ -13,6 +13,12 @@ public class MemoryJson implements JsonRepository{
     private static Map<String, Integer> storeMap = new HashMap<String, Integer>();
 
 ////////////////////////////////
+    public void clearing(){
+        jsonArray = null;
+        culumList = null;
+        jsonObject = null;
+        storeMap.clear();
+    }
     public JSONArray getJsonArray(){
         return jsonArray;
     }
