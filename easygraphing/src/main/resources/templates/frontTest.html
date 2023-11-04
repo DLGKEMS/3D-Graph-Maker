@@ -91,10 +91,7 @@
                                             <div class="form-group">
                                                 <label><h3>컬럼 선택</h3></label>
                                                 <select class="custom-select" id="inputGroupSelect02">
-                                                    <option selected>Choose...</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                    <option th:each="continent : ${columData}" th:value="${continent}" th:text="${continent}"></option>
                                                 </select>
                                             </div>
                                             <form action="">
@@ -130,7 +127,7 @@
             </div>
 <!--            <span th:text="${jsonData}"></span>-->
             <input type="hidden" id="graph-type" value="bar">
-            <input type="hidden" id="columnData" th:value="${columData}">
+            <input type="hidden" id="columnData" th:value="${columData[1]}">
             <input type="hidden" id="resultData" th:value="${jsonData}">
         </div>
         <script src="/js/index.js" type="module"></script>
