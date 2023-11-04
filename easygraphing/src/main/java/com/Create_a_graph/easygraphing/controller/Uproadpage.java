@@ -30,15 +30,14 @@ public class Uproadpage {
         this.filedata = filedata;
     } //< 이게 없으면 null오류남
 
-    @RequestMapping(value = "/test")
+    @RequestMapping(value = "/createGraph")
     public String test() {
         try {
-            JSONObject complitMap;
             filedata.data("자치구명");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return "frontTest";
+        return "redirect:/frontTest";
     }
 
     @GetMapping
@@ -56,7 +55,7 @@ public class Uproadpage {
     //파일 데이터 저장
     @PostMapping("/csvDD")
     //public String fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-    public void fileUpload(@RequestParam("file") MultipartFile file) {
+    public String fileUpload(@RequestParam("file") MultipartFile file) {
         try {
             MemoryJson memoryJson = new MemoryJson();
             if(memoryJson.getJsonArray() != null){
@@ -66,7 +65,7 @@ public class Uproadpage {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //return "redirect:/";
+        return "redirect:/frontTest";
     }
 
     @GetMapping("frontTest")

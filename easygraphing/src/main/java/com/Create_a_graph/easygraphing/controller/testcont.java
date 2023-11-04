@@ -5,6 +5,7 @@ import com.Create_a_graph.easygraphing.service.GetColumn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,4 +32,8 @@ public class testcont {
 //        model.addAttribute("jsonData", jsonData);
 //        return "data";
 //    }
+    @PostMapping("/frontTest")
+    public void testcolum(String a){
+        System.out.println(a);
+    }
 }
