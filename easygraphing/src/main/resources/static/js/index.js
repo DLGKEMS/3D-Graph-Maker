@@ -90,11 +90,18 @@ function init(graphType,resultData){
         // console.log(key + ': ' + dataObject[key]);
     });
 
+
     // makePieGraph([
     //     { value: 30, color: 0xFF5733 },
     //     { value: 20, color: 0x33FF57 },
     //     { value: 50, color: 0x5733FF }
     // ],scene)
+
+    // 이미지 저장 기능 추가
+    const btnImage = document.getElementById('btn-create-image');
+    btnImage.addEventListener('click',()=>{
+        createImage(renderer);
+    })
 
     // orbitcontrol을 사용하기 위해서는 애니메이션이 실행되어야 한다.(boiler)
     animate()
@@ -168,6 +175,25 @@ function makePieGraph(data,scene){
 
         currentAngle += Math.PI * 2 * (segment.value / totalValue);
     });
+}
+
+function createImage(renderer){
+    const strMime = 'image/png';
+    let img;
+        try {
+            console.log(renderer)
+             let imgData = renderer.domElement.toDataURL(strMime);
+             img = imgData.replace(strMime, 'image/octet-stream');
+             console.log(imgData)
+             const link = document.createElement('a');
+             document.body.appendChild(link);
+             link.download = 'image.png';
+             link.href = img;
+             link.click();
+            document.body.removeChild(link);
+        } catch (e) {
+            console.log(e);
+        }
 }
 
 init(document.getElementById("graph-type").value,document.getElementById("resultData").value)
