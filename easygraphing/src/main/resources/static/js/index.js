@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { Reflector } from 'three/addons/objects/Reflector';
 
 const fontSize = 5;
 
@@ -103,6 +102,8 @@ function init(graphType,resultData){
         createImage(renderer);
     })
 
+    createContent(dataObject);
+
     // orbitcontrol을 사용하기 위해서는 애니메이션이 실행되어야 한다.(boiler)
     animate()
     function animate() {
@@ -194,6 +195,20 @@ function createImage(renderer){
         } catch (e) {
             console.log(e);
         }
+}
+
+function createContent(dataObject){
+    var ctx = document.getElementById("canvas-text-box").getContext("2d");
+    var count =0;
+    Object.keys(dataObject).forEach(function(key) {
+        ctx.fillStyle = 'black';
+        ctx.font = "8px";
+        ctx.fillText(key, 10, 10*count+5);
+
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(50, 10*count, 20, 2);
+        count +=1;
+    });
 }
 
 init(document.getElementById("graph-type").value,document.getElementById("resultData").value)

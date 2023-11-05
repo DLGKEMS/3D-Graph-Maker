@@ -1,6 +1,11 @@
 @charset "UTF-8";
 
 #canvas-box{
-    width: inherit; /*길이는 부모 컨포넌트에 상속받는다*/
+    width: 100%; /*길이는 부모 컨포넌트에 상속받는다*/
     height: 500px;  /* 높이는 500*/
+}
+
+#canvas-text-box{
+    width: 100%;
+    height: 500px;
 }
