@@ -30,27 +30,11 @@ public class Uproadpage {
         this.filedata = filedata;
     } //< 이게 없으면 null오류남
 
-    @RequestMapping(value = "/createGraph")
-    public String test() {
-        try {
-            filedata.data("자치구명");
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return "redirect:/frontTest";
-    }
-
+    //@RequestMapping
     @GetMapping
     public String index(){
         return "csvDD";
     }
-
-    //저장된 데이터 리스트 출력
-
-//    @GetMapping(value = "/frontTest")
-//    public String frontTest(){
-//        return "frontTest";
-//    }
 
     //파일 데이터 저장
     @PostMapping("/csvDD")
@@ -68,7 +52,27 @@ public class Uproadpage {
         return "redirect:/frontTest";
     }
 
-    @GetMapping("frontTest")
+    @RequestMapping(value = "/createGraph")
+    public String test() {
+        try {
+            filedata.data("자치구명");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/frontTest";
+    }
+
+//    @PostMapping("/createGraph")
+//    public String graphShow(@RequestParam("inputGroupSelect02") String value){
+//        try {
+//            filedata.data(value);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return "redirect:/frontTest";
+//    }//
+
+    @GetMapping("showGraph")
     public String showData(Model model) {
         MemoryJson memoryJson = new MemoryJson();
         Map<String, Integer> jsonData = new HashMap<>();
@@ -76,23 +80,16 @@ public class Uproadpage {
         String[] colums = memoryJson.getColum();
         model.addAttribute("jsonData", jsonData);
         model.addAttribute("columData", colums);
-        return "frontTest";
+        return "redirect:/frontTest";
     }
-//    @RequestMapping("clear")
-//    public String clearData(){
-//        MemoryJson memoryJson = new MemoryJson();
-//        memoryJson.clearing();
-//        return "/clear";
-//    }
 }
 
-//
-//    //public String fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-//    public String fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-//        fileService.savefile(file);
-//
-//        redirectAttributes.addFlashAttribute("message",
-//                "You successfully uploaded " + file.getOriginalFilename() + "!");
-//
-//        //return "hello";
-//        return "redirect:/";
+//    @RequestMapping(value = "/showGraph")
+//    public String test() {
+//        try {
+//            filedata.data("자치구명");
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return "redirect:/frontTest";
+//    }
