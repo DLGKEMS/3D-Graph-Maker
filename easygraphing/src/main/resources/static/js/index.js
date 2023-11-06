@@ -81,10 +81,13 @@ function init(graphType,resultData){
     // set grid
     // const gridHelper = new THREE.GridHelper( 100, 100 );
     // scene.add( gridHelper );
+    const n=Object.keys(dataObject).length;
+    const colors=generateRainbowColors(n);
 
+    console.log(colors)
     let count = 0;
     Object.keys(dataObject).forEach(function(key) {
-        makeGraph(count,dataObject[key], scene);
+        makeGraph(count,dataObject[key], scene, colors[count]);
         count+=1;
         // console.log(key + ': ' + dataObject[key]);
     });
@@ -102,7 +105,7 @@ function init(graphType,resultData){
         createImage(renderer);
     })
 
-    createContent(dataObject);
+    createContent(dataObject,colors);
 
     // orbitcontrol을 사용하기 위해서는 애니메이션이 실행되어야 한다.(boiler)
     animate()
@@ -113,7 +116,51 @@ function init(graphType,resultData){
     }
 }
 
-function makeGraph(index, value, scene){
+function interpolateColor(color1, color2, factor) {
+    const c1 = color1.match(/\d+/g);
+    const c2 = color2.match(/\d+/g);
+    const result = [];
+
+    for (let i = 0; i < 3; i++) {
+        result.push(Math.round(Number(c1[i]) + factor * (Number(c2[i]) - Number(c1[i]))))
+    }
+
+    return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
+}
+
+function generateRainbowColors(n) {
+    const rainbowColors = [
+        'rgb(255, 0, 0)',     // 빨강
+        'rgb(255, 127, 0)',   // 주황
+        'rgb(255, 255, 0)',   // 노랑
+        'rgb(0, 255, 0)',     // 초록
+        'rgb(0, 0, 255)',     // 파랑
+        'rgb(75, 0, 130)',    // 남색
+        'rgb(148, 0, 211)'    // 보라
+    ];
+
+    const colors = [];
+
+    if (n <= 0) {
+        return colors;
+    }
+
+    if (n === 1) {
+        return [rainbowColors[0]];
+    }
+
+    for (let i = 0; i < n; i++) {
+        const index = i / (n - 1) * (rainbowColors.length - 1);
+        const startIndex = Math.floor(index);
+        const endIndex = Math.min(startIndex + 1, rainbowColors.length - 1);
+        const factor = index - startIndex;
+        const color = interpolateColor(rainbowColors[startIndex], rainbowColors[endIndex], factor);
+        colors.push(color);
+    }
+
+    return colors;
+}
+function makeGraph(index, value, scene,color){
     // graph
     var geom = new THREE.BoxBufferGeometry();
     var material = new THREE.ShaderMaterial({
@@ -131,7 +178,7 @@ function makeGraph(index, value, scene){
     });
 
     const cube = new THREE.Mesh( geom, material );
-    cube.material.uniforms.color.value.set(Math.random() * 0xffffff);
+    cube.material.uniforms.color.value.set(color);
     console.log(cube)
     cube.scale.y = value *0.1;
     cube.position.set(index*1.3, value/20, 0);
@@ -197,16 +244,24 @@ function createImage(renderer){
         }
 }
 
-function createContent(dataObject){
-    var ctx = document.getElementById("canvas-text-box").getContext("2d");
+function createContent(dataObject,colors){
+    var ctb = document.getElementById("canvas-text-box");
     var count =0;
     Object.keys(dataObject).forEach(function(key) {
-        ctx.fillStyle = 'black';
-        ctx.font = "8px";
-        ctx.fillText(key, 10, 10*count+5);
+        const div = document.createElement("div")
+        div.className="col-6 d-flex"
+        const p = document.createElement("p");
+        p.textContent = `${key}(${dataObject[key]})`;
+        p.className="w-50"
+        div.appendChild(p);
 
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(50, 10*count, 20, 2);
+        const colorDiv = document.createElement("div");
+        colorDiv.style.background=colors[count];
+        colorDiv.style.height='4px';
+        colorDiv.className="w-50"
+        colorDiv.style.marginTop="10px"
+        div.appendChild(colorDiv);
+        ctb.appendChild(div);
         count +=1;
     });
 }
