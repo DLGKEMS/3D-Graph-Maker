@@ -29,17 +29,17 @@
           <div class="card-body">
             <div class="container">
               <div class ="row mb-3">
-                <form action="/csvDD" enctype="multipart/form-data">
+                <form action="/csvDD" method="post" enctype="multipart/form-data">
                   <input class="form-control" id="formFile" type="file" name="file" accept=".csv" required>
                   <div class = "d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary m-1">업로드</button>
                   </div>
                 </form>
-<!--                <form action="test">-->
-<!--                  <div class = "d-flex justify-content-end">-->
-<!--                    <button type="submit" class="btn btn-primary m-1">사용</button>-->
-<!--                  </div>-->
-<!--                </form>-->
+                <!--                <form action="test">-->
+                <!--                  <div class = "d-flex justify-content-end">-->
+                <!--                    <button type="submit" class="btn btn-primary m-1">사용</button>-->
+                <!--                  </div>-->
+                <!--                </form>-->
               </div>
             </div>
           </div>
@@ -55,15 +55,15 @@
               <textarea>get method check</textarea>
               <button type="submit">test now!</button>
             </form>
-            </div>
           </div>
         </div>
       </div>
-    </main>
   </div>
-  <input type="hidden" id="graph-type" value="bar">
-  <input type="hidden" id="columnData" value="['w','x','y','z']">
-  <input type="hidden" id="resultData" value="{w:40, x:50,y:30,z:80}">
+  </main>
+</div>
+<input type="hidden" id="graph-type" value="bar">
+<input type="hidden" id="columnData" value="['w','x','y','z']">
+<input type="hidden" id="resultData" value="{w:40, x:50,y:30,z:80}">
 </div>
 <script src="/js/index.js" type="module"></script>
 <script src="/js/scripts.js"></script>

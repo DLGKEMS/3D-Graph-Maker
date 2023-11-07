@@ -88,15 +88,15 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                        </form>
+                                        <form action="selectColumeData" method="post">
                                             <div class="form-group">
                                                 <label><h3>컬럼 선택</h3></label>
-                                                <select class="custom-select" id="inputGroupSelect02">
+                                                <select class="custom-select" name="selectedOption">
                                                     <option th:each="continent : ${columData}" th:value="${continent}" th:text="${continent}"></option>
                                                 </select>
+                                                <input type="submit" value="제출">
                                             </div>
-                                                <div>
-                                                    <button type="submit" class="form-select">저장</button>
-                                                </div>
                                         </form>
                                         <form action="createGraph">
                                             <div class = "d-flex justify-content-end">
