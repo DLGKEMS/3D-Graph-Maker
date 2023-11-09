@@ -36,20 +36,15 @@ public class MemoryJson implements JsonRepository{
     public JSONObject getJsonObject() {
         return jsonObject;
     }
-
     public void setJsonObject(JSONObject jsonObject) {
         MemoryJson.jsonObject = jsonObject;
     }
-
     public void setColum(String[] keys){
         String[] clonkey = new String[keys.length];
         for(int i=0;i < keys.length;i++){
             clonkey[i] = keys[i].trim();
         }
         MemoryJson.culumList = clonkey;
-//        for(int i=0;i<MemoryJson.culumList.length;i++) {
-//            System.out.println("Colum" + i + " : " + MemoryJson.culumList[i]);
-//        }
     }
     public String[] getColum(){
         return culumList;

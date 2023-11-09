@@ -48,13 +48,19 @@ public class FileUploadService {
             // 스트링 배열에 키 값을 ','로 split하여 저장
             String[] key = String.valueOf(str).split(",");
 
+            for(int i=0;i < key.length;i++){
+                key[i] = key[i].trim();
+            }
+
+
             memoryJson.setColum(key); //컬럼 저장
+
+            System.out.println("한번 출력해보자" + csvData.get(0).get("자치구명").toString());
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonStoreData = objectMapper.writeValueAsString(csvData);
 
             JSONArray jsonStoreArray = new JSONArray(jsonStoreData);
-
             memoryJson.setJsonArray(jsonStoreArray); //JsonArray 저장
 
         } catch (Exception e) {

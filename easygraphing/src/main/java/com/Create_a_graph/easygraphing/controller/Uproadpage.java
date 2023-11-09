@@ -29,29 +29,10 @@ public class Uproadpage {
         this.filedata = filedata;
     } //< 이게 없으면 null오류남
 
-    @RequestMapping(value = "/createGraph")
-    public String test() {
-        try {
-            MemoryJson memoryJson = new MemoryJson();
-            filedata.data(memoryJson.getColume());
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return "redirect:/frontTest";
-    }
-
     @GetMapping
     public String index(){
         return "csvDD";
     }
-
-    //저장된 데이터 리스트 출력
-
-//    @GetMapping(value = "/frontTest")
-//    public String frontTest(){
-//        return "frontTest";
-//    }
 
     //파일 데이터 저장
     @PostMapping("/csvDD")
@@ -83,29 +64,22 @@ public class Uproadpage {
         return "frontTest";
     }
 
+    @RequestMapping(value = "/createGraph")
+    public String test() {
+        try {
+            MemoryJson memoryJson = new MemoryJson();
+            filedata.data(memoryJson.getColume());
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/frontTest";
+    }
+
     @PostMapping("selectColumeData")
     public String colset(@RequestParam("selectedOption") String selectedOption){
         MemoryJson memoryJson = new MemoryJson();
         memoryJson.setColume(selectedOption);
         return "redirect:/frontTest";
     }
-
-
-//    @RequestMapping("clear")
-//    public String clearData(){
-//        MemoryJson memoryJson = new MemoryJson();
-//        memoryJson.clearing();
-//        return "/clear";
-//    }
 }
-
-//
-//    //public String fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-//    public String fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-//        fileService.savefile(file);
-//
-//        redirectAttributes.addFlashAttribute("message",
-//                "You successfully uploaded " + file.getOriginalFilename() + "!");
-//
-//        //return "hello";
-//        return "redirect:/";

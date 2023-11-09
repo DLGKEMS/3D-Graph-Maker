@@ -41,11 +41,14 @@ public class Data_Processing {
         }
         //System.out.println("countkey : " + count.keySet());
 
-        for(int i = 0; i<jsonStoreArray.length();i++){
+        for(int i = 0; i<jsonStoreArray.length();i++) {
             jsonObject = (JSONObject) jsonStoreArray.get(i);
-            for(int j = 0; j<count.size(); j++) {
-                if(jsonObject.getString(userqustion).equals(unreduplicationkey[j])){
-                    count.put(unreduplicationkey[j].toString(), count.get(unreduplicationkey[j].toString())+ 1);
+            for (int j = 0; j < count.size(); j++) {
+                if (jsonObject.getString(userqustion).equals(unreduplicationkey[j])) {
+                    if(count.get(unreduplicationkey[j].toString())== null){
+                        continue;
+                    }
+                    count.put(unreduplicationkey[j].toString(), count.get(unreduplicationkey[j].toString()) + 1);
                 }
             }
         }
@@ -54,10 +57,13 @@ public class Data_Processing {
             memoryJson.storeMapClearing();
         }
         for(int i = 0; i<count.size(); i++){
+            if(count.get(unreduplicationkey[i]) == null){
+                continue;
+            }
             memoryJson.setMap(unreduplicationkey[i].toString(), count.get(unreduplicationkey[i]));
         } //html으로 보낼 map을 만드는 코드
 
 
-        memoryJson.setJsonObject(new JSONObject(count));
+        //memoryJson.setJsonObject(new JSONObject(count));
     }
 }
