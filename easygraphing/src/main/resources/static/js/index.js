@@ -18,7 +18,7 @@ function init(graphType,resultData){
         dataObject[parts[0]] = parseInt(parts[1]); // key와 value를 객체에 추가
     });
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true});
     const canvasBox=document.getElementById('canvas-box');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -162,24 +162,14 @@ function generateRainbowColors(n) {
 }
 function makeGraph(index, value, scene,color){
     // graph
-    var geom = new THREE.BoxBufferGeometry();
-    var material = new THREE.ShaderMaterial({
-        uniforms: {
-            thickness: {
-                value: 1
-            },
-            color: {
-                value: new THREE.Color()
-            }
-        },
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        extensions: {derivatives: true},
-    });
+    var geom = new THREE.BoxGeometry();
+    var material = new THREE.MeshStandardMaterial();
+
 
     const cube = new THREE.Mesh( geom, material );
-    cube.material.uniforms.color.value.set(color);
-    console.log(cube)
+    console.log( cube.material.color)
+    cube.material.color.set(color);
+    console.log( cube)
     cube.scale.y = value *0.1;
     cube.position.set(index*1.3, value/20, 0);
     scene.add( cube );
@@ -226,17 +216,27 @@ function makePieGraph(data,scene){
 }
 
 function createImage(renderer){
-    const strMime = 'image/png';
+    const strMime = 'image/jpeg';
     let img;
         try {
-            console.log(renderer)
-             let imgData = renderer.domElement.toDataURL(strMime);
-             img = imgData.replace(strMime, 'image/octet-stream');
+            // 텍스트용
+            // console.log(document.getElementById('canvas-box').children[0]);
+            html2canvas(document.querySelector("#canvas-text-box")).then(canvas => {
+                let test=canvas.toDataURL('image/jpeg')
+                let link2 = document.createElement('a')
+                document.body.appendChild(link2);
+
+                link2.href = test;
+                link2.download = 'text.jpg';
+                link2.click();
+            });
+             let imgData = document.getElementById('canvas-box').children[0].toDataURL(strMime);
+             img = imgData.replace(strMime, "image/octet-stream");
              console.log(imgData)
              const link = document.createElement('a');
              document.body.appendChild(link);
-             link.download = 'image.png';
-             link.href = img;
+             link.download = 'image.jpg';
+             link.href = imgData;
              link.click();
             document.body.removeChild(link);
         } catch (e) {
