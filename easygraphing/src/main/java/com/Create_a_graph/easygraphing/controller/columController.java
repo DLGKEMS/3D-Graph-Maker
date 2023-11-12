@@ -25,6 +25,7 @@ public class columController {
     @ResponseBody
     public ResponseEntity<String> handlePostRequest(@RequestBody DataClass data) throws JsonProcessingException {
         // 받은 데이터 처리
+        System.out.println("성공");
         String selectedValue = data.getSelectedValue();
         filedata.data(selectedValue);
         // 클라이언트에 응답
@@ -33,7 +34,9 @@ public class columController {
         MemoryJson memoryJson = new MemoryJson();
         Map<String, Integer> mapdata = memoryJson.getMap();
         String jsonString = objectMapper.writeValueAsString(mapdata);
-        
+
+        System.out.println(memoryJson.getMap());
+
         return new ResponseEntity<>(jsonString, HttpStatus.OK);
     }
 

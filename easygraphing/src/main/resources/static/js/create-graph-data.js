@@ -1,4 +1,3 @@
-import {init} from './index';
 function sendSelectedData() {
 
     // 선택된 값을 가져오기
@@ -14,11 +13,10 @@ function sendSelectedData() {
         if (xhr.status === 200) {
             // 서버에서 받은 응답 데이터를 처리할 수 있음
             console.log(xhr.responseText);
+            // var graphType = document.getElementById('graph-type').value;
+            // var resultData = xhr.responseText; // 서버에서 받은 데이터
+            // console.log(resultData);
 
-            var graphType = document.getElementById('graph-type').value;
-            var resultData = xhr.responseText; // 서버에서 받은 데이터
-            console.log(resultData);
-            init(graphType, resultData);
 
         } else {
             console.error('Error sending data');
