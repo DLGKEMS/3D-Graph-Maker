@@ -3,23 +3,16 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
-const fontSize = 5;
-
 export default function init(graphType,resultData){
-    console.log(resultData);
-    console.log(typeof resultData)
-    // 문자열에서 중괄호와 쉼표를 제거하고 key-value 쌍을 배열로 추출
-    var dataArray = resultData.slice(1, -1).split(',');
-    console.log(dataArray)
-    // 배열을 객체로 변환
-    var dataObject = {};
+    // 문자열에서 딕셔너리로 변환
+    let dataArray = resultData.slice(1, -1).split(',');
+    let dataObject = {};
     dataArray.forEach(function(item) {
-        console.log(item)
-        var parts = item.split(':');
-        console.log(parts[0],parts[1])
-        dataObject[parts[0]] = parseInt(parts[1]); // key와 value를 객체에 추가
+        const parts = item.split(':');
+        dataObject[parts[0]] = parseInt(parts[1]);
     });
-    console.log(dataObject)
+
+    // three.js 코드 시작
     const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true});
     const canvasBox=document.getElementById('canvas-box');
     const scene = new THREE.Scene();
@@ -27,25 +20,29 @@ export default function init(graphType,resultData){
     const controls = new OrbitControls( camera, renderer.domElement );
 
     // set renderer
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize( canvasBox.offsetWidth, canvasBox.offsetHeight );
 
+    // canvas는 한개만 사용
     if(canvasBox.hasChildNodes()){
         Array.from(canvasBox.childNodes).forEach(child => {
             canvasBox.removeChild(child);
         });
     }
-    canvasBox.appendChild( renderer.domElement );
+    canvasBox.appendChild( renderer.domElement  );
 
     // set camera
     camera.position.set( 10, 10, 10 );
     controls.update();
 
+    // set light
     const hemiLight = new THREE.AmbientLight( 0xffffff, 0.5 );
     hemiLight.position.set( 0, 20, 0 );
     scene.add( hemiLight );
 
     const dirLight = new THREE.DirectionalLight( 0xa0a0a0, 2 );
-    dirLight.angle=Math.PI/2;
+    dirLight.angle=Math.PI;
     dirLight.position.set( 0, 10, 10 );
     dirLight.castShadow = true;
     dirLight.shadow.camera.top = 20;
@@ -54,23 +51,12 @@ export default function init(graphType,resultData){
     dirLight.shadow.camera.right = 20;
     dirLight.shadow.mapSize.height = 512;
     dirLight.shadow.mapSize.width = 512;
-
     scene.add( dirLight );
 
     // set background
     scene.background = new THREE.Color( 0xf2f2f2 );
     scene.fog = new THREE.Fog( 0xf2f2f2, 10,80 );
-    // let mirrorGeometry = new THREE.PlaneBufferGeometry( 100, 1000, 100, 1000 );
-    // let mirror = new Reflector( mirrorGeometry, {
-    //     clipBias: 0.01,
-    //     textureWidth: window.innerWidth * window.devicePixelRatio,
-    //     textureHeight: window.innerHeight * window.devicePixelRatio,
-    //     color: 0x777777,
-    //     opacity: 0.1
-    // } );
-    // mirror.position.y = 0
-    // mirror.rotateX(  - Math.PI / 2 );
-    // scene.add( mirror );
+
     // set bottom
     const mesh = new THREE.Mesh(
         new THREE.PlaneGeometry( 500, 500 ),
@@ -86,23 +72,16 @@ export default function init(graphType,resultData){
     mesh.receiveShadow = true;
     scene.add( mesh );
 
-    // set grid
-    // const gridHelper = new THREE.GridHelper( 100, 100 );
-    // scene.add( gridHelper );
-    const n=Object.keys(dataObject).length;
-    const colors=generateRainbowColors(n);
-
-    console.log(n)
+    // make graph
+    const colors=generateRainbowColors(Object.keys(dataObject).length);
     let count = 0;
 
-    Object.keys(dataObject).forEach(function(key) {
-        console.log(colors[count])
+    Object.keys(dataObject).forEach(function(key,index) {
         makeGraph(count,dataObject[key], scene, colors[count]);
         count+=1;
-        // console.log(key + ': ' + dataObject[key]);
     });
 
-
+    // 파이 차트 예시용
     // makePieGraph([
     //     { value: 30, color: 0xFF5733 },
     //     { value: 20, color: 0x33FF57 },
@@ -115,9 +94,10 @@ export default function init(graphType,resultData){
         createImage(renderer);
     })
 
+    // 옆 내용 추가
     createContent(dataObject,colors);
 
-    // orbitcontrol을 사용하기 위해서는 애니메이션이 실행되어야 한다.(boiler)
+    // 애니메이션 실행
     animate()
     function animate() {
         requestAnimationFrame( animate );
@@ -126,6 +106,7 @@ export default function init(graphType,resultData){
     }
 }
 
+//선형 색 보간
 function interpolateColor(color1, color2, factor) {
     const c1 = color1.match(/\d+/g);
     const c2 = color2.match(/\d+/g);
@@ -138,6 +119,7 @@ function interpolateColor(color1, color2, factor) {
     return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
 }
 
+// 그래프 색 설정
 function generateRainbowColors(n) {
     const rainbowColors = [
         'rgb(255, 0, 0)',     // 빨강
@@ -170,61 +152,37 @@ function generateRainbowColors(n) {
 
     return colors;
 }
+
+//막대 그래프 생성
 function makeGraph(index, value, scene,color){
     // graph
-    var geom = new THREE.BoxGeometry();
-    var material = new THREE.MeshStandardMaterial();
-
+    const geom = new THREE.BoxGeometry();
+    const material = new THREE.MeshStandardMaterial();
 
     const cube = new THREE.Mesh( geom, material );
-    console.log( cube.material.color)
     cube.material.color.set(color);
-    console.log( cube)
     cube.scale.y = value *0.1;
     cube.position.set(index*1.3, value/20, 0);
+    cube.castShadow =true;
     scene.add( cube );
-
-    // text
-    let fontLoader = new FontLoader();
-    const url = "../font/helvetiker_regular.typeface.json";
-    fontLoader.load(url, (font) => {
-        let geometry = new TextGeometry(
-            value.toString(),
-            {
-                font: font,
-                size: 0.5,
-                height: 0,
-                curveSegments: 12,
-                width: 50
-            }
-        );
-        geometry.computeBoundingBox();
-        let xMid = -0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
-        geometry.translate( xMid, 0, 0 );
-        let material = new THREE.MeshBasicMaterial({
-            color: 0x000000,
-        });
-        let mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(index*1.3, value+0.2, 0);
-        scene.add(mesh);
-
-    });
 }
 
+// 파이 그래프 생성
 function makePieGraph(data,scene){
-    var totalValue = data.reduce((sum, segment) => sum + segment.value, 0);
-    var currentAngle = -Math.PI / 2;
+    const totalValue = data.reduce((sum, segment) => sum + segment.value, 0);
+    let currentAngle = -Math.PI / 2;
 
     data.forEach(segment => {
-        var geometry = new THREE.CylinderGeometry(1, 1, 0.2, 64, 1, false, currentAngle, Math.PI * 2 * (segment.value / totalValue));
-        var material = new THREE.MeshBasicMaterial({ color: segment.color, side: THREE.DoubleSide });
-        var pieSegment = new THREE.Mesh(geometry, material);
+        const geometry = new THREE.CylinderGeometry(1, 1, 0.2, 64, 1, false, currentAngle, Math.PI * 2 * (segment.value / totalValue));
+        const material = new THREE.MeshBasicMaterial({ color: segment.color, side: THREE.DoubleSide });
+        const pieSegment = new THREE.Mesh(geometry, material);
         scene.add(pieSegment);
 
         currentAngle += Math.PI * 2 * (segment.value / totalValue);
     });
 }
 
+// 스크린샷
 function createImage(renderer){
     const strMime = 'image/jpeg';
     let img;
@@ -254,6 +212,7 @@ function createImage(renderer){
         }
 }
 
+// 설명 디테일 추가
 function createContent(dataObject,colors){
     var ctb = document.getElementById("canvas-text-box");
     var count =0;
