@@ -5,19 +5,21 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 const fontSize = 5;
 
-function init(graphType,resultData){
+export default function init(graphType,resultData){
+    console.log(resultData);
+    console.log(typeof resultData)
     // 문자열에서 중괄호와 쉼표를 제거하고 key-value 쌍을 배열로 추출
-    var dataArray = resultData
-        .replace(/[{()}]/g, '') // 중괄호 제거
-        .split(', ') // 쉼표와 공백을 기준으로 분할
-
+    var dataArray = resultData.slice(1, -1).split(',');
+    console.log(dataArray)
     // 배열을 객체로 변환
     var dataObject = {};
     dataArray.forEach(function(item) {
-        var parts = item.split('=');
+        console.log(item)
+        var parts = item.split(':');
+        console.log(parts[0],parts[1])
         dataObject[parts[0]] = parseInt(parts[1]); // key와 value를 객체에 추가
     });
-
+    console.log(dataObject)
     const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true});
     const canvasBox=document.getElementById('canvas-box');
     const scene = new THREE.Scene();
@@ -26,6 +28,12 @@ function init(graphType,resultData){
 
     // set renderer
     renderer.setSize( canvasBox.offsetWidth, canvasBox.offsetHeight );
+
+    if(canvasBox.hasChildNodes()){
+        Array.from(canvasBox.childNodes).forEach(child => {
+            canvasBox.removeChild(child);
+        });
+    }
     canvasBox.appendChild( renderer.domElement );
 
     // set camera
@@ -84,9 +92,11 @@ function init(graphType,resultData){
     const n=Object.keys(dataObject).length;
     const colors=generateRainbowColors(n);
 
-    console.log(colors)
+    console.log(n)
     let count = 0;
+
     Object.keys(dataObject).forEach(function(key) {
+        console.log(colors[count])
         makeGraph(count,dataObject[key], scene, colors[count]);
         count+=1;
         // console.log(key + ': ' + dataObject[key]);
@@ -267,4 +277,3 @@ function createContent(dataObject,colors){
 }
 
 init(document.getElementById("graph-type").value,document.getElementById("resultData").value)
-

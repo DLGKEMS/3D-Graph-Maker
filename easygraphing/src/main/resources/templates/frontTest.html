@@ -94,7 +94,7 @@
                                         <select class="custom-select" name="selectedOption">
                                             <option th:each="continent : ${columData.keySet()}" th:value="${continent}" th:text="${continent}"></option>
                                         </select>
-                                        <button onclick="sendSelectedData()">제출</button>
+                                        <button id='submitBtn' onclick="sendSelectedData()">제출</button>
 
 
 <!--                                        <form action="createGraph">-->
@@ -132,8 +132,8 @@
             <input type="hidden" id="columnData" th:value="${columData}">
             <input type="hidden" id="resultData" th:value="${jsonData}">
         </div>
-        <script src="/js/create-graph-data.js"></script>
-        <script src="/js/index.js" type="module"></script>
+<!--        <script src="/js/index.js" type="module"></script>-->
+        <script src="/js/create-graph-data.js" type="module"></script>
         <script src="/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="/js/datatables-simple-demo.js"></script>
