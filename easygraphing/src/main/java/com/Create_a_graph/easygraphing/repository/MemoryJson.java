@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class MemoryJson implements JsonRepository{
     private static JSONArray jsonArray;
-    private static String[] culumList;
+    private static Map<String, String> culumList_type;
     private static JSONObject jsonObject;
     private static Map<String, Integer> storeMap = new HashMap<String, Integer>();
     private static String selectColume = "";
@@ -16,7 +16,7 @@ public class MemoryJson implements JsonRepository{
 ////////////////////////////////
     public void clearing(){
         jsonArray = null;
-        culumList = null;
+        culumList_type = null;
         jsonObject = null;
         storeMap.clear();
     }
@@ -39,15 +39,11 @@ public class MemoryJson implements JsonRepository{
     public void setJsonObject(JSONObject jsonObject) {
         MemoryJson.jsonObject = jsonObject;
     }
-    public void setColum(String[] keys){
-        String[] clonkey = new String[keys.length];
-        for(int i=0;i < keys.length;i++){
-            clonkey[i] = keys[i].trim();
-        }
-        MemoryJson.culumList = clonkey;
+    public void setColum(Map<String, String> columType){
+        MemoryJson.culumList_type = columType;
     }
-    public String[] getColum(){
-        return culumList;
+    public Map<String, String> getColum(){
+        return culumList_type;
     }
 
     public void setMap(String key, int value){
@@ -55,12 +51,5 @@ public class MemoryJson implements JsonRepository{
     }
     public Map<String, Integer> getMap(){
         return storeMap;
-    }
-
-    public void setColume(String colume){
-        selectColume = colume;
-    }
-    public String getColume(){
-        return selectColume;
     }
 }

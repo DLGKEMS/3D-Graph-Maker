@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,10 +52,16 @@ public class FileUploadService {
                 key[i] = key[i].trim();
             }
 
+            Map<String, String> columType = new HashMap<>();
+            for (int i = 0; i<key.length; i++){
+                columType.put(key[i], csvData.get(0).get(key[i]).toString());
+            } // {character=최애의갓근, address=경기도 안산시 단원구 고잔동 616-3, name=장영근, id=1, age=26}
+            System.out.println("test columeType : " + columType);
 
-            memoryJson.setColum(key); //컬럼 저장
+            MakeColumeMap makeColumeMap = new MakeColumeMap();
+            //makeColumeMap.creatColumMap(columType, key); // 컬럼들의 타입을 Map으로 만들어서 반환
 
-            System.out.println("한번 출력해보자" + csvData.get(0).get("자치구명").toString());
+            memoryJson.setColum(makeColumeMap.creatColumMap(columType, key)); //컬럼 저장
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonStoreData = objectMapper.writeValueAsString(csvData);

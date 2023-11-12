@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 @Service
@@ -16,9 +17,6 @@ public class Data_Processing {
         JSONArray jsonStoreArray = null;
         jsonStoreArray = memoryJson.getJsonArray();
 
-        //System.out.println("JsonArray : " + Array);
-
-        //JSONObject jsonObject = new JSONObject();
         JSONObject jsonObject = null;
 
         Object[] jasonArrayList = null;
@@ -39,8 +37,8 @@ public class Data_Processing {
                 count.put(unreduplicationkey[i].toString(), 0);
             }
         }
-        //System.out.println("countkey : " + count.keySet());
 
+        //System.out.println("countkey : " + count.keySet());
         for(int i = 0; i<jsonStoreArray.length();i++) {
             jsonObject = (JSONObject) jsonStoreArray.get(i);
             for (int j = 0; j < count.size(); j++) {
@@ -63,6 +61,7 @@ public class Data_Processing {
             memoryJson.setMap(unreduplicationkey[i].toString(), count.get(unreduplicationkey[i]));
         } //html으로 보낼 map을 만드는 코드
 
+        Map<String, Integer> test = memoryJson.getMap();
 
         //memoryJson.setJsonObject(new JSONObject(count));
     }

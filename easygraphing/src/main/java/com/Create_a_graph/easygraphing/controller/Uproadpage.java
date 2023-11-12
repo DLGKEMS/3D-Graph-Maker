@@ -50,6 +50,27 @@ public class Uproadpage {
         return "redirect:/frontTest";
     }
 
+//    @PostMapping("selectColumeData")
+//    @ResponseBody
+//    public void colset(@RequestParam("selectedOption") String selectedOption){
+//        MemoryJson memoryJson = new MemoryJson();
+//        memoryJson.setColume(selectedOption);
+//        //return "redirect:/frontTest";
+//    }
+
+
+//    @RequestMapping(value = "/createGraph")
+//    public String test() {
+//        try {
+//            MemoryJson memoryJson = new MemoryJson();
+//            filedata.data(memoryJson.getColume());
+//
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return "redirect:/frontTest";
+//    }
+
     @GetMapping("frontTest")
     public String showData(Model model) {
         MemoryJson memoryJson = new MemoryJson();
@@ -58,28 +79,11 @@ public class Uproadpage {
 //            jsonData = null;
 //        }
         jsonData = memoryJson.getMap();
-        String[] colums = memoryJson.getColum();
+        Map<String, String> colums = memoryJson.getColum();
+        System.out.println(jsonData);
         model.addAttribute("jsonData", jsonData);
         model.addAttribute("columData", colums);
         return "frontTest";
     }
 
-    @RequestMapping(value = "/createGraph")
-    public String test() {
-        try {
-            MemoryJson memoryJson = new MemoryJson();
-            filedata.data(memoryJson.getColume());
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return "redirect:/frontTest";
-    }
-
-    @PostMapping("selectColumeData")
-    public String colset(@RequestParam("selectedOption") String selectedOption){
-        MemoryJson memoryJson = new MemoryJson();
-        memoryJson.setColume(selectedOption);
-        return "redirect:/frontTest";
-    }
 }
