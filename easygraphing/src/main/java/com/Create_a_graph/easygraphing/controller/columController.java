@@ -39,7 +39,6 @@ public class columController {
 
         return new ResponseEntity<>(jsonString, HttpStatus.OK);
     }
-
     public static class DataClass {
         private String selectedValue;
 

@@ -75,9 +75,6 @@ public class Uproadpage {
     public String showData(Model model) {
         MemoryJson memoryJson = new MemoryJson();
         Map<String, Integer> jsonData = new HashMap<>();
-//        if(jsonData != null){
-//            jsonData = null;
-//        }
         jsonData = memoryJson.getMap();
         Map<String, String> colums = memoryJson.getColum();
         System.out.println(jsonData);

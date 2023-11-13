@@ -15,10 +15,10 @@ function sendSelectedData() {
         if (xhr.status === 200) {
             // 서버에서 받은 응답 데이터를 처리할 수 있음
             console.log(xhr.responseText);
-            // var graphType = document.getElementById('graph-type').value;
+             var graphType = document.getElementById('graph-type').value;
             // var resultData = xhr.responseText; // 서버에서 받은 데이터
             // console.log(resultData);
-            init('bar',xhr.responseText)
+            init(graphType,xhr.responseText)
         } else {
             console.error('Error sending data');
         }
