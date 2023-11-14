@@ -2,6 +2,7 @@ package com.Create_a_graph.easygraphing.controller;
 
 import com.Create_a_graph.easygraphing.repository.MemoryJson;
 import com.Create_a_graph.easygraphing.service.Data_Processing;
+import com.Create_a_graph.easygraphing.service.SearchType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,9 +27,25 @@ public class columController {
     @ResponseBody
     public ResponseEntity<String> handlePostRequest(@RequestBody DataClass data) throws JsonProcessingException {
         // 받은 데이터 처리
+        String type = "";
         System.out.println("성공");
         String selectedValue = data.getSelectedValue();
-        filedata.data(selectedValue);
+        String[] inputData = data.getInput();
+
+        if(inputData.length > 0){
+            SearchType searchType = new SearchType();
+            type = searchType.search(inputData[0]);
+        }
+
+        if(type == "Integer"){
+            filedata.integerData(selectedValue, inputData);
+        }
+        else if(type == "String"){
+            filedata.stringData(selectedValue, inputData);
+        }
+        else if(type == ""){
+            filedata.stringData(selectedValue, inputData);
+        }
         // 클라이언트에 응답
         //return "Processed value: " + selectedValue;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -41,13 +59,19 @@ public class columController {
     }
     public static class DataClass {
         private String selectedValue;
-
+        private String[] input;
         public String getSelectedValue() {
             return selectedValue;
         }
-
         public void setSelectedValue(String selectedValue) {
             this.selectedValue = selectedValue;
+        }
+        public String[] getInput() {
+            return input;
+        }
+
+        public void setInput(String[] input) {
+            this.input = input;
         }
     }
 }

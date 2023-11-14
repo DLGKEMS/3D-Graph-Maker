@@ -90,18 +90,21 @@
                                                 </div>
                                             </div>
                                         </form>
+
                                         <label><h3>컬럼 선택</h3></label>-->
                                         <select class="custom-select" name="selectedOption">
-                                            <option th:each="continent : ${columData.keySet()}" th:value="${continent}" th:text="${continent}"></option>
+<!--                                            <option th:each="continent : ${columData.keySet()}" th:value="${continent}" th:text="${continent}"></option>-->
+                                            <option th:each="continent : ${columData}" th:value="${continent}" th:text="${continent.key}"></option>
                                         </select>
+
+                                        <label><h3>조건 선택</h3></label>
+                                        <div id="inputs-container"></div>
+                                        <button onclick="addInput()">조건 추가</button>
+                                        <button onclick="removeInput()">조건 삭제</button>
+
                                         <button id='submitBtn' onclick="sendSelectedData()">제출</button>
 
 
-<!--                                        <form action="createGraph">-->
-<!--                                            <div class = "d-flex justify-content-end">-->
-<!--                                                <button type="submit" class="btn btn-primary m-1">사용</button>-->
-<!--                                            </div>-->
-<!--                                        </form>-->
                                     </div>
                                 </div>
                             </div>
@@ -134,6 +137,7 @@
         </div>
 <!--        <script src="/js/index.js" type="module"></script>-->
         <script src="/js/create-graph-data.js" type="module"></script>
+        <script src="/js/input-management.js"></script>
         <script src="/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="/js/datatables-simple-demo.js"></script>

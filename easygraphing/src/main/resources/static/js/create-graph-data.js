@@ -3,8 +3,25 @@ import init from './index.js'
 function sendSelectedData() {
     console.log('point')
     // 선택된 값을 가져오기
-    var selectedValue = document.querySelector('select[name="selectedOption"]').value;
+    var selectedValue = document.querySelector('select[name="selectedOption"]').value.split('=');
+    var container = document.getElementById("inputs-container");
+    var inputs = container.querySelectorAll("input[name^='dynamicInput']");
+    // // selectedValue[0] = 컬럼값 selectedValue[1]은 컬럼의 타입
 
+    var data={
+        selectedValue : selectedValue[0],
+        input: []
+    };
+
+    // inputs.forEach(function(input, index) {
+    //     data['input_' + index] = input.value;
+    // });
+
+    inputs.forEach(function (input, index) {
+        data.input.push(input.value);
+    });
+
+    console.log(data)
     // Ajax 요청 생성 (이 부분은 이미 정의된 것을 사용)
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/your-endpoint', true);
@@ -25,7 +42,8 @@ function sendSelectedData() {
     };
 
     // 데이터를 JSON 문자열로 변환하여 전송
-    xhr.send(JSON.stringify({ selectedValue: selectedValue }));
+    // xhr.send(JSON.stringify({ selectedValue: selectedValue[0]}));
+    xhr.send(JSON.stringify(data));
 }
 
 // 버튼 클릭 이벤트에 함수 연결
