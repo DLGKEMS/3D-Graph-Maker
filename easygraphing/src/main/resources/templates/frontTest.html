@@ -97,13 +97,14 @@
 <!--                                            <option th:each="continent : ${columData.keySet()}" th:value="${continent}" th:text="${continent}"></option>-->
                                             <option th:each="continent : ${columData}" th:value="${continent}" th:text="${continent.key}"></option>
                                         </select>
-
-                                        <label><h3>조건 선택</h3></label>
-                                        <div id="inputs-container"></div>
+                                        <div class="button-container">
                                         <button onclick="addInput()">조건 추가</button>
                                         <button onclick="removeInput()">조건 삭제</button>
-
                                         <button id='submitBtn' onclick="sendSelectedData()">제출</button>
+                                        </div>
+                                        <label><h3>조건 선택</h3></label>
+                                        <div id="inputs-container"></div>
+
 
 
                                     </div>

@@ -6,11 +6,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MemoryJson implements JsonRepository{
+public class MemoryJson {
     private static JSONArray jsonArray;
     private static Map<String, String> culumList_type;
     private static JSONObject jsonObject;
-    private static Map<String, Integer> storeMap = new HashMap<String, Integer>();
+    private static Map<String, Long> storeMap = new HashMap<String, Long>();
     private static String selectColume = "";
 
 ////////////////////////////////
@@ -46,10 +46,10 @@ public class MemoryJson implements JsonRepository{
         return culumList_type;
     }
 
-    public void setMap(String key, int value){
+    public void setMap(String key, Long value){
         storeMap.put(key, value);
     }
-    public Map<String, Integer> getMap(){
+    public Map<String, Long> getMap(){
         return storeMap;
     }
 }

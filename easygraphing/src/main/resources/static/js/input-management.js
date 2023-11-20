@@ -20,33 +20,55 @@ function addInput() {
 }
 function inputString(container){
     var newDiv = document.createElement("div");
-    var newInput = document.createElement("input");
+    var newStringInput1 = document.createElement("input");
+    var newStringInput2 = document.createElement("input");
+    var columnText = document.createTextNode(" 컬럼 : ");
+    var conditionText = document.createTextNode(" 조건 : ")
+    var newSelect = document.createElement("select");
 
-    var newText = document.createTextNode("조건 : ");
+    ["or", "and", "=", "!="].forEach(function(operator) {
+        var option = document.createElement("option");
+        option.value = operator;
+        option.text = operator;
+        newSelect.appendChild(option);
+    });
 
-    newInput.type = "text";
-    newInput.name = "dynamicInput[" + inputStringCount + "]";
-    newDiv.appendChild(newInput);
+
+    newStringInput1.type = "text";
+    newStringInput1.name = "dynamicInput [" + inputIntegerCount + "] ";
+    inputIntegerCount++;
+
+    newStringInput2.type = "text";
+    newStringInput2.name = "dynamicInput [" + inputIntegerCount + "] ";
+
+    newDiv.appendChild(columnText);
+    newDiv.appendChild(newStringInput1);
+    newDiv.appendChild(conditionText);
+    newDiv.appendChild(newStringInput2);
+    newDiv.appendChild(newSelect);
+
     container.appendChild(newDiv);
 
     inputStringCount++; // input 개수 증가
+
+
 }
 function inputInteger(container){
     var newDiv = document.createElement("div");
-    var newInput1 = document.createElement("input");
-    var newInput2 = document.createElement("input");
-    newInput1.type = "text";
-    newInput1.name = "dynamicInput[" + inputIntegerCount + "]";
+    var newIntegerInput1 = document.createElement("input");
+    var newIntegerInput2 = document.createElement("input");
+    newIntegerInput1.type = "text";
+    newIntegerInput1.name = "dynamicInput[" + inputIntegerCount + "]";
     inputIntegerCount++;
 
     var newText = document.createTextNode(" <= ");
 
-    newInput2.type = "text";
-    newInput2.name = "dynamicInput[" + inputIntegerCount + "]";
+    newIntegerInput2.type = "text";
+    newIntegerInput2.name = "dynamicInput[" + inputIntegerCount + "]";
 
-    newDiv.appendChild(newInput1);
+    newDiv.appendChild(newIntegerInput1);
     newDiv.appendChild(newText);
-    newDiv.appendChild(newInput2);
+    newDiv.appendChild(newIntegerInput2);
 
     container.appendChild(newDiv);
 

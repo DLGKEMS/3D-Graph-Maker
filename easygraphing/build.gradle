@@ -32,7 +32,12 @@ dependencies {
 
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0' // 최신 버전을 사용할 수 있습니다.
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.0' // 최신 버전을 사용할 수 있습니다.
-
+	implementation 'com.opencsv:opencsv:5.6'
+	//////////db를 위한 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'mysql:mysql-connector-java:8.0.23'
+	implementation 'org.hibernate:hibernate-core' // Hibernate JPA 구현체 추가
+	//implementation 'mysql:mysql-connector-java'
 }
 
 tasks.named('test') {

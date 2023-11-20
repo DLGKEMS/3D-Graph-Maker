@@ -6,10 +6,12 @@ function sendSelectedData() {
     var selectedValue = document.querySelector('select[name="selectedOption"]').value.split('=');
     var container = document.getElementById("inputs-container");
     var inputs = container.querySelectorAll("input[name^='dynamicInput']");
+    var selects = document.querySelector('select[name="select"]').value;
     // // selectedValue[0] = 컬럼값 selectedValue[1]은 컬럼의 타입
 
     var data={
         selectedValue : selectedValue[0],
+        selectedOperator: [],
         input: []
     };
 
@@ -19,6 +21,10 @@ function sendSelectedData() {
 
     inputs.forEach(function (input, index) {
         data.input.push(input.value);
+    });
+
+    selects.forEach(function (select) {
+        data.selectedOperator.push(select.value);
     });
 
     console.log(data)
