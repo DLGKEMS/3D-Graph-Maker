@@ -3,14 +3,28 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
-export default function init(graphType,resultData){
+export default function init(resultData){
     // 문자열에서 딕셔너리로 변환
     let dataArray = resultData.slice(1, -1).split(',');
     let dataObject = {};
+    let graphType = null
+    let maxData = 0;
+
     dataArray.forEach(function(item) {
         const parts = item.split(':');
-        dataObject[parts[0]] = parseInt(parts[1]);
+        if(parts.length!==1){
+            dataObject[parts[0].replace(/"/g, '')] = parseInt(parts[1]);
+            maxData = Math.max(maxData, parseInt(parts[1]));
+        }
     });
+
+    // 그래프 타입
+    const graphTypeList = document.getElementsByName('graph-type');
+    graphTypeList.forEach((node) => {
+        if (node.checked) {
+            graphType = node.value;
+        }
+    })
 
     // three.js 코드 시작
     const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true});
@@ -20,8 +34,8 @@ export default function init(graphType,resultData){
     const controls = new OrbitControls( camera, renderer.domElement );
 
     // set renderer
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // renderer.shadowMap.enabled = true;
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize( canvasBox.offsetWidth, canvasBox.offsetHeight );
 
     // canvas는 한개만 사용
@@ -72,21 +86,21 @@ export default function init(graphType,resultData){
     mesh.receiveShadow = true;
     scene.add( mesh );
 
-    // make graph
     const colors=generateRainbowColors(Object.keys(dataObject).length);
-    let count = 0;
 
-    Object.keys(dataObject).forEach(function(key,index) {
-        makeGraph(count,dataObject[key], scene, colors[count]);
-        count+=1;
-    });
+    // make bar graph
+    if(graphType==="bar"){
+        let count = 0;
+        Object.keys(dataObject).forEach(function(key,index) {
+            makeGraph(count,dataObject[key], scene, colors[count], maxData);
+            count+=1;
+        });
+    }
 
-    // 파이 차트 예시용
-    // makePieGraph([
-    //     { value: 30, color: 0xFF5733 },
-    //     { value: 20, color: 0x33FF57 },
-    //     { value: 50, color: 0x5733FF }
-    // ],scene)
+    // make pie graph
+    else if(graphType==="pie"){
+        makePieGraph(dataObject,colors,scene)
+    }
 
     // 이미지 저장 기능 추가
     const btnImage = document.getElementById('btn-create-image');
@@ -154,31 +168,37 @@ function generateRainbowColors(n) {
 }
 
 //막대 그래프 생성
-function makeGraph(index, value, scene,color){
+function makeGraph(index, value, scene,color, maxData){
     // graph
     const geom = new THREE.BoxGeometry();
     const material = new THREE.MeshStandardMaterial();
+    const maxVal = 10
 
     const cube = new THREE.Mesh( geom, material );
     cube.material.color.set(color);
-    cube.scale.y = value *0.1;
-    cube.position.set(index*1.3, value/20, 0);
+    cube.scale.y = (value / maxData) * maxVal;
+    cube.position.set(index*1.3, (value / maxData) * maxVal/2 , 0);
     cube.castShadow =true;
     scene.add( cube );
 }
 
 // 파이 그래프 생성
-function makePieGraph(data,scene){
-    const totalValue = data.reduce((sum, segment) => sum + segment.value, 0);
-    let currentAngle = -Math.PI / 2;
+function makePieGraph(dataObject,colors,scene){
+    let totalValue = 0;
+    for (let key in dataObject) {
+        totalValue+=dataObject[key]
+    }
 
-    data.forEach(segment => {
-        const geometry = new THREE.CylinderGeometry(1, 1, 0.2, 64, 1, false, currentAngle, Math.PI * 2 * (segment.value / totalValue));
-        const material = new THREE.MeshBasicMaterial({ color: segment.color, side: THREE.DoubleSide });
+    let currentAngle = -Math.PI / 2;
+    let count = 0;
+    Object.keys(dataObject).forEach(key => {
+        const geometry = new THREE.CylinderGeometry(1, 1, 0.2, 64, 1, false, currentAngle, Math.PI * 2 * (dataObject[key] / totalValue));
+        const material = new THREE.MeshBasicMaterial({ color: colors[count], side: THREE.DoubleSide });
         const pieSegment = new THREE.Mesh(geometry, material);
         scene.add(pieSegment);
 
-        currentAngle += Math.PI * 2 * (segment.value / totalValue);
+        currentAngle += Math.PI * 2 * (dataObject[key] / totalValue);
+        count+=1;
     });
 }
 
@@ -200,7 +220,6 @@ function createImage(renderer){
             });
              let imgData = document.getElementById('canvas-box').children[0].toDataURL(strMime);
              img = imgData.replace(strMime, "image/octet-stream");
-             console.log(imgData)
              const link = document.createElement('a');
              document.body.appendChild(link);
              link.download = 'image.jpg';
@@ -214,8 +233,12 @@ function createImage(renderer){
 
 // 설명 디테일 추가
 function createContent(dataObject,colors){
-    var ctb = document.getElementById("canvas-text-box");
-    var count =0;
+    if(Object.keys(dataObject).length===0){
+        return;
+    }
+    const ctb = document.getElementById("canvas-text-box");
+    ctb.innerHTML = '';
+    let count =0;
     Object.keys(dataObject).forEach(function(key) {
         const div = document.createElement("div")
         div.className="col-6 d-flex"
@@ -235,4 +258,4 @@ function createContent(dataObject,colors){
     });
 }
 
-init(document.getElementById("graph-type").value,document.getElementById("resultData").value)
+init(document.getElementById("resultData").value);

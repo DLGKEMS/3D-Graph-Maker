@@ -35,7 +35,7 @@ function sendSelectedData() {
              var graphType = document.getElementById('graph-type').value;
             // var resultData = xhr.responseText; // 서버에서 받은 데이터
             // console.log(resultData);
-            init(graphType,xhr.responseText)
+            init(xhr.responseText)
         } else {
             console.error('Error sending data');
         }
