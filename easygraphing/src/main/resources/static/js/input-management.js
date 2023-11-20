@@ -24,34 +24,46 @@ function inputString(container){
     var newStringInput2 = document.createElement("input");
     var columnText = document.createTextNode(" 컬럼 : ");
     var conditionText = document.createTextNode(" 조건 : ")
-    var newSelect = document.createElement("select");
+    var logicSelect = document.createElement("select");
+    var equalSelect = document.createElement("select");
 
-    ["or", "and", "=", "!="].forEach(function(operator) {
-        var option = document.createElement("option");
-        option.value = operator;
-        option.text = operator;
-        newSelect.appendChild(option);
-    });
+    if(inputStringCount <= 10) {
+        logicSelect.name = "logicSelector";
+        ["or", "and"].forEach(function (operator) {
+            const option = document.createElement("option");
+            option.value = operator;
+            option.text = operator;
+            logicSelect.appendChild(option);
+        });
 
-
-    newStringInput1.type = "text";
-    newStringInput1.name = "dynamicInput [" + inputIntegerCount + "] ";
-    inputIntegerCount++;
-
-    newStringInput2.type = "text";
-    newStringInput2.name = "dynamicInput [" + inputIntegerCount + "] ";
-
-    newDiv.appendChild(columnText);
-    newDiv.appendChild(newStringInput1);
-    newDiv.appendChild(conditionText);
-    newDiv.appendChild(newStringInput2);
-    newDiv.appendChild(newSelect);
-
-    container.appendChild(newDiv);
-
-    inputStringCount++; // input 개수 증가
+        equalSelect.name = "equalSelector";
+        ["=", "!="].forEach(function (operator) {
+            const equalOption = document.createElement("option");
+            equalOption.value = operator;
+            equalOption.text = operator;
+            equalSelect.appendChild(equalOption);
+        });
 
 
+        newStringInput1.type = "text";
+        newStringInput1.name = "dynamicInput [" + inputStringCount + "] ";
+        inputStringCount++;
+
+        newStringInput2.type = "text";
+        newStringInput2.name = "dynamicInput [" + inputStringCount + "] ";
+
+        if (inputStringCount > 1) {
+            newDiv.appendChild(logicSelect);
+        }
+        newDiv.appendChild(columnText);
+        newDiv.appendChild(newStringInput1);
+        newDiv.appendChild(equalSelect);
+        newDiv.appendChild(conditionText);
+        newDiv.appendChild(newStringInput2);
+        container.appendChild(newDiv);
+
+        inputStringCount++; // input 개수 증가
+    }
 }
 function inputInteger(container){
     var newDiv = document.createElement("div");
@@ -79,6 +91,12 @@ function removeInput() {
     var container = document.getElementById("inputs-container");
     var inputs = container.querySelectorAll("div");
 
+    if(inputIntegerCount >= 2) {
+        inputIntegerCount = inputStringCount - 2;
+    }
+    if(inputStringCount >= 2) {
+        inputStringCount = inputStringCount - 2;
+    }
     // 최소 하나의 input을 유지하기 위해
     if (inputs.length > 0) {
         container.removeChild(inputs[inputs.length - 1]);

@@ -33,12 +33,8 @@ public class columController {
         // 받은 데이터 처리
 
         DbCRUD dbCRUD = new DbCRUD(entityManager, keyValueRepository);
-        dbCRUD.getNoConditionData(data.getSelectedValue(), data.getInput());
-        String type = "";
+        dbCRUD.getNoConditionData(data.getSelectedValue(), data.getInput(), data.logicSelect, data.equalSelect);
         System.out.println("성공");
-        String selectedValue = data.getSelectedValue();
-        String[] inputData = data.getInput();
-        String option = data.selectedValue;
 
         // 클라이언트에 응답
         //return "Processed value: " + selectedValue;
@@ -46,7 +42,7 @@ public class columController {
         MemoryJson memoryJson = new MemoryJson();
         Map<String, Long> mapdata = memoryJson.getMap();
         String jsonString = objectMapper.writeValueAsString(mapdata);
-
+        // 클라이언트에 보내서 그래프를 만들 Map 데이터
         System.out.println(memoryJson.getMap());
 
         return new ResponseEntity<>(jsonString, HttpStatus.OK);
@@ -54,6 +50,8 @@ public class columController {
     public static class DataClass {
         private String selectedValue;
         private String[] input;
+        private String[] logicSelect;
+        private String[] equalSelect;
         //private String[] selectedOperator;
         public String getSelectedValue() {
             return selectedValue;
@@ -61,7 +59,9 @@ public class columController {
         public String[] getInput() {
             return input;
         }
-        //public String[] getselectedOperator(){ return selectedOperator; }
+        public String[] getLogicSelect(){ return logicSelect; }
+        public String[] getEqualSelect(){ return equalSelect; }
+
 
 
     }

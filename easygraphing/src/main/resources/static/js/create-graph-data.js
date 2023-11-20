@@ -4,12 +4,15 @@ function sendSelectedData() {
     console.log('point')
     // 선택된 값을 가져오기
     var selectedValue = document.querySelector('select[name="selectedOption"]').value.split('=');
+    // selectedValue[0] = 컬럼값 selectedValue[1]은 컬럼의 타입
     var container = document.getElementById("inputs-container");
     var inputs = container.querySelectorAll("input[name^='dynamicInput']");
-    // // selectedValue[0] = 컬럼값 selectedValue[1]은 컬럼의 타입
-
+    var logicSelect = container.querySelectorAll("select[name^='logicSelector']");
+    var equalSelect = container.querySelectorAll("select[name^='equalSelector']");
     var data={
         selectedValue : selectedValue[0],
+        logicSelect: [],
+        equalSelect: [],
         input: []
     };
 
@@ -21,9 +24,13 @@ function sendSelectedData() {
         data.input.push(input.value);
     });
 
-    // selects.forEach(function (select) {
-    //     data.selectedOperator.push(select.value);
-    // });
+    logicSelect.forEach(function (logicSelect) {
+        data.logicSelect.push(logicSelect.value);
+    });
+
+    equalSelect.forEach(function (equalSelect) {
+        data.equalSelect.push(equalSelect.value);
+    });
 
     console.log(data)
     // Ajax 요청 생성 (이 부분은 이미 정의된 것을 사용)

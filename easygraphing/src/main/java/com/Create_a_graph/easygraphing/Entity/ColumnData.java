@@ -10,22 +10,13 @@ public class ColumnData {
 
 
     // Getter, Setter, Constructors...
-
     public ColumnData(String columnName, String columnValue) {
         this.columnName = columnName;
         this.columnValue = columnValue;
 
     }
-
-//    public boolean isValid() {
-//        return columnName != null && !columnName.isEmpty() &&
-//                columnValue != null && !columnValue.isEmpty();
-//    }
-
     public ColumnData() {
-
     }
-
     public String getColumnName() {
         return columnName;
     }
