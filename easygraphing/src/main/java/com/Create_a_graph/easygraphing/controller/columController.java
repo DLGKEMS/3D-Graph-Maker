@@ -33,7 +33,7 @@ public class columController {
         // 받은 데이터 처리
 
         DbCRUD dbCRUD = new DbCRUD(entityManager, keyValueRepository);
-        dbCRUD.getNoConditionData(data.getSelectedValue(), data.getInput(), data.getselectedOperator());
+        dbCRUD.getNoConditionData(data.getSelectedValue(), data.getInput());
         String type = "";
         System.out.println("성공");
         String selectedValue = data.getSelectedValue();
@@ -54,14 +54,14 @@ public class columController {
     public static class DataClass {
         private String selectedValue;
         private String[] input;
-        private String[] selectedOperator;
+        //private String[] selectedOperator;
         public String getSelectedValue() {
             return selectedValue;
         }
         public String[] getInput() {
             return input;
         }
-        public String[] getselectedOperator(){ return selectedOperator; }
+        //public String[] getselectedOperator(){ return selectedOperator; }
 
 
     }

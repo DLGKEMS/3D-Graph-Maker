@@ -6,12 +6,10 @@ function sendSelectedData() {
     var selectedValue = document.querySelector('select[name="selectedOption"]').value.split('=');
     var container = document.getElementById("inputs-container");
     var inputs = container.querySelectorAll("input[name^='dynamicInput']");
-    var selects = document.querySelector('select[name="select"]').value;
     // // selectedValue[0] = 컬럼값 selectedValue[1]은 컬럼의 타입
 
     var data={
         selectedValue : selectedValue[0],
-        selectedOperator: [],
         input: []
     };
 
@@ -23,9 +21,9 @@ function sendSelectedData() {
         data.input.push(input.value);
     });
 
-    selects.forEach(function (select) {
-        data.selectedOperator.push(select.value);
-    });
+    // selects.forEach(function (select) {
+    //     data.selectedOperator.push(select.value);
+    // });
 
     console.log(data)
     // Ajax 요청 생성 (이 부분은 이미 정의된 것을 사용)
@@ -41,6 +39,7 @@ function sendSelectedData() {
              var graphType = document.getElementById('graph-type').value;
             // var resultData = xhr.responseText; // 서버에서 받은 데이터
             // console.log(resultData);
+            console.log("몇번 들어가냐?")
             init(xhr.responseText)
         } else {
             console.error('Error sending data');
