@@ -1,0 +1,29 @@
+#custom-spinner{
+    position: fixed;
+    z-index: 10;
+    visibility: hidden;
+}
+
+#layoutAuthentication{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#upload-cover{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top:0rem;
+    z-index: 5;
+    background: black;
+    opacity: 0.3;
+    visibility: hidden;
+}
+body{
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
