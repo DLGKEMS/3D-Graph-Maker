@@ -52,7 +52,6 @@ public class columController {
         private String[] input;
         private String[] logicSelect;
         private String[] equalSelect;
-        //private String[] selectedOperator;
         public String getSelectedValue() {
             return selectedValue;
         }

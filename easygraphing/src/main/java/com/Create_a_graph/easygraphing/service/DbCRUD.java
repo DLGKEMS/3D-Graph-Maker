@@ -1,6 +1,5 @@
 package com.Create_a_graph.easygraphing.service;
 
-import com.Create_a_graph.easygraphing.Entity.KeyValueEntity;
 import com.Create_a_graph.easygraphing.repository.KeyValueEntityRepository;
 import com.Create_a_graph.easygraphing.repository.MemoryJson;
 import jakarta.persistence.EntityManager;
@@ -31,7 +30,7 @@ public class DbCRUD {
             System.out.println("KeyValueEntityRepository is not initialized.");
             return null;
         }
-        List<KeyValueEntity> entities = keyValueEntityRepository.findAll();
+        //List<KeyValueEntity> entities = keyValueEntityRepository.findAll();
 
 
         for(int i = 0; i<condition.length; i++){

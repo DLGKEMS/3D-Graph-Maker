@@ -9,7 +9,6 @@ public class ColumnData {
     private String columnValue;
 
 
-    // Getter, Setter, Constructors...
     public ColumnData(String columnName, String columnValue) {
         this.columnName = columnName;
         this.columnValue = columnValue;

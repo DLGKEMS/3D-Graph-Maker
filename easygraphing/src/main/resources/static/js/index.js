@@ -172,12 +172,13 @@ function makeGraph(index, value, scene,color, maxData){
     // graph
     const geom = new THREE.BoxGeometry();
     const material = new THREE.MeshStandardMaterial();
-    const maxVal = 10
+    const maxVal = 15
 
     const cube = new THREE.Mesh( geom, material );
     cube.material.color.set(color);
     cube.scale.y = (value / maxData) * maxVal;
-    cube.position.set(index*1.3, (value / maxData) * maxVal/2 , 0);
+    cube.scale.x=0.5
+    cube.position.set(index*0.7, (value / maxData) * maxVal/2 , 0);
     cube.castShadow =true;
     scene.add( cube );
 }
@@ -231,7 +232,7 @@ function createImage(renderer){
         }
 }
 
-// 설명 디테일 추가
+// 설명 디테일 추가 text
 function createContent(dataObject,colors){
     if(Object.keys(dataObject).length===0){
         return;
