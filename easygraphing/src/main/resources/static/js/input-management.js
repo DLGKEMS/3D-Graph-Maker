@@ -1,33 +1,49 @@
-var inputStringCount = 0; // 초기 input 개수
-var inputIntegerCount = 0;
-function addInput() {
+var inputCount = 0; // 초기 input 개수
+//var inputIntegerCount = 0;
+function addStringInput(conditionType) {
     var container = document.getElementById("inputs-container");
     var select = document.querySelector(".custom-select");
     var selectedValue = select.value.split('=') // selectedValue[0] = 컬럼값 selectedValue[1]은 컬럼의 타입
 
-    //var value = selectedValue.split('=');
-    console.log(selectedValue[0])
-    console.log(selectedValue[1])
 
-    if(selectedValue[1] == "String"){
-        inputIntegerCount = 0
+    //var value = selectedValue.split('=');
+
+    if(conditionType == "String"){
+        //inputIntegerCount = 0
         inputString(container)
     }
-    else if (selectedValue[1] == "Integer"){
-        inputStringCount = 0
+    else if (conditionType == "Integer"){
+        //inputStringCount = 0
         inputInteger(container)
     }
 }
 function inputString(container){
+
     var newDiv = document.createElement("div");
-    var newStringInput1 = document.createElement("input");
-    var newStringInput2 = document.createElement("input");
+    //var newStringInput1 = document.createElement("input");
+    var StringInput = document.createElement("input");
     var columnText = document.createTextNode(" 컬럼 : ");
     var conditionText = document.createTextNode(" 조건 : ")
     var logicSelect = document.createElement("select");
     var equalSelect = document.createElement("select");
 
-    if(inputStringCount <= 10) {
+    var columnDataInput = document.getElementById("columnData");
+    var inputValue = String(columnDataInput.value);
+    var columnSelect = document.createElement("select");
+
+    var keyPattern = /\b(\w+)\b(?=\=)/g; // 정규 표현식을 사용하여 키 값을 추출
+    var keys = inputValue.match(keyPattern);
+
+
+    if(inputCount <= 10) {
+        columnSelect.name = "columnSelector";
+        keys.forEach(function (operator){
+            const option = document.createElement("option");
+            option.value = operator;
+            option.text = operator;
+            columnSelect.appendChild(option);
+        })
+
         logicSelect.name = "logicSelector";
         ["or", "and"].forEach(function (operator) {
             const option = document.createElement("option");
@@ -45,57 +61,98 @@ function inputString(container){
         });
 
 
-        newStringInput1.type = "text";
-        newStringInput1.name = "dynamicInput [" + inputStringCount + "] ";
-        inputStringCount++;
+        // newStringInput1.type = "text";
+        // newStringInput1.name = "dynamicInput [" + inputStringCount + "] ";
+        inputCount++;
 
-        newStringInput2.type = "text";
-        newStringInput2.name = "dynamicInput [" + inputStringCount + "] ";
+        StringInput.type = "text";
+        StringInput.name = "dynamicInput [" + inputCount + "] ";
 
         if (inputStringCount > 1) {
             newDiv.appendChild(logicSelect);
         }
         newDiv.appendChild(columnText);
-        newDiv.appendChild(newStringInput1);
+        newDiv.appendChild(columnSelect);
         newDiv.appendChild(equalSelect);
         newDiv.appendChild(conditionText);
-        newDiv.appendChild(newStringInput2);
+        newDiv.appendChild(StringInput);
         container.appendChild(newDiv);
 
-        inputStringCount++; // input 개수 증가
+        inputCount++; // input 개수 증가
     }
 }
 function inputInteger(container){
     var newDiv = document.createElement("div");
+    //var newStringInput1 = document.createElement("input");
     var newIntegerInput1 = document.createElement("input");
     var newIntegerInput2 = document.createElement("input");
-    newIntegerInput1.type = "text";
-    newIntegerInput1.name = "dynamicInput[" + inputIntegerCount + "]";
-    inputIntegerCount++;
+    var columnIntegerText = document.createTextNode(" 컬럼 : ");
+    var conditionIntegerText = document.createTextNode(" 조건 : ")
+    var logicIntegerSelect = document.createElement("select");
+    var equalIntegerSelect = document.createElement("select");
 
-    var newText = document.createTextNode(" <= ");
+    var columnDataInput = document.getElementById("columnData");
+    var inputValue = String(columnDataInput.value);
+    var columnSelect = document.createElement("select");
 
-    newIntegerInput2.type = "text";
-    newIntegerInput2.name = "dynamicInput[" + inputIntegerCount + "]";
+    var keyPattern = /\b(\w+)\b(?=\=)/g; // 정규 표현식을 사용하여 키 값을 추출
+    var keys = inputValue.match(keyPattern);
 
-    newDiv.appendChild(newIntegerInput1);
-    newDiv.appendChild(newText);
-    newDiv.appendChild(newIntegerInput2);
 
-    container.appendChild(newDiv);
+    if(inputCount <= 10) {
+        columnSelect.name = "columnSelector";
+        keys.forEach(function (operator){
+            const option = document.createElement("option");
+            option.value = operator;
+            option.text = operator;
+            columnSelect.appendChild(option);
+        })
 
-    inputIntegerCount++; // input 개수 증가
+        logicIntegerSelect.name = "logicSelector";
+        ["or", "and"].forEach(function (operator) {
+            const option = document.createElement("option");
+            option.value = operator;
+            option.text = operator;
+            logicIntegerSelect.appendChild(option);
+        });
+
+        equalIntegerSelect.name = "equalSelector";
+        ["=", "<", ">", "<=", ">=", "BETWEEN"].forEach(function (operator) {
+            const equalOption = document.createElement("option");
+            equalOption.value = operator;
+            equalOption.text = operator;
+            equalIntegerSelect.appendChild(equalOption);
+        });
+
+        // newStringInput1.type = "text";
+        // newStringInput1.name = "dynamicInput [" + inputStringCount + "] ";
+        inputCount++;
+        newIntegerInput1.type = "text";
+        newIntegerInput1.name = "dynamicInput [" + inputCount + "] ";
+        newIntegerInput2.type = "text";
+        newIntegerInput2.name = "dynamicInput [" + inputCount + "] ";
+
+        if (inputCount > 1) {
+            newDiv.appendChild(logicSelect);
+        }
+        newDiv.appendChild(columnIntegerText);
+        newDiv.appendChild(columnSelect);
+        newDiv.appendChild(conditionIntegerText);
+        newDiv.appendChild(newIntegerInput1);
+        newDiv.appendChild(equalIntegerSelect);
+        newDiv.appendChild(newIntegerInput2);
+        container.appendChild(newDiv);
+
+        inputCount++; // input 개수 증가
+    }
 }
 
 function removeInput() {
     var container = document.getElementById("inputs-container");
     var inputs = container.querySelectorAll("div");
 
-    if(inputIntegerCount >= 2) {
-        inputIntegerCount = inputStringCount - 2;
-    }
-    if(inputStringCount >= 2) {
-        inputStringCount = inputStringCount - 2;
+    if(inputCount >= 2) {
+        inputCount = inputCount - 2;
     }
     // 최소 하나의 input을 유지하기 위해
     if (inputs.length > 0) {

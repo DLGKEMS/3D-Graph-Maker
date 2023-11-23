@@ -20,124 +20,38 @@ public class DbCRUD {
     }
 
     @Transactional
-    public Map<String, Long> getNoConditionData(String xcolumn, String[] condition, String[] option, String[] equal) {
+    public Map<String, Long> getConditionData(String xcolumn, String[] condition, String[] option, String[] equal, String[] column) {
+
         Map<String, Long> map = new HashMap<>();
         MemoryJson memoryJson = new MemoryJson();
         if(memoryJson.getMap() != null){memoryJson.clearing();}
         List<Object[]> result = null;
 
-        if (keyValueEntityRepository == null) {
-            System.out.println("KeyValueEntityRepository is not initialized.");
-            return null;
-        }
-        //List<KeyValueEntity> entities = keyValueEntityRepository.findAll();
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("SELECT mainData.columnValue, count(e) ");
+        queryBuilder.append("FROM KeyValueEntity e ");
+        queryBuilder.append("JOIN e.columnDataList mainData ON mainData.columnName = '" + xcolumn + "' ");
 
+        for (int i = 0; i < column.length; i++) {
+            String joinCondition = "JOIN e.columnDataList conditionData" + String.valueOf(i) + " ON conditionData" + String.valueOf(i) + ".columnName = '" + column[i] + "' ";
+            queryBuilder.append(joinCondition);
+        }
 
         for(int i = 0; i<condition.length; i++){
-            System.out.println("condition : " + condition[i]);
+            if(i==0){queryBuilder.append("WHERE ");}
+            if(i > 0 && i <= option.length){
+                System.out.println("option 들어옴");
+                queryBuilder.append("" + option[i-1] + " ");
+            }
+            String conditionString = "conditionData" + String.valueOf(i) +".columnValue " + equal[i] + " '" + condition[i] + "' ";
+            queryBuilder.append(conditionString);
         }
 
-        String o = "or";
+        queryBuilder.append(" GROUP BY mainData.columnValue");
+        String query = queryBuilder.toString();
 
-        if(condition.length == 2) {
-            result = entityManager.createQuery(
-                            "SELECT mainData.columnValue, count(e) " +
-                                    "FROM KeyValueEntity e " +
-                                    "JOIN e.columnDataList mainData ON mainData.columnName = '" + xcolumn + "' " +
-                                    "JOIN e.columnDataList conditionData ON conditionData.columnName = '" + condition[0] + "' " +
-                                    "WHERE conditionData.columnValue " + equal[0] + " '" + condition[1] + "' " +
-                                    "GROUP BY mainData.columnValue",
-                            Object[].class)
-                    .getResultList();
-        } // 조건 한개
+        result = entityManager.createQuery(query, Object[].class).getResultList();
 
-        else if(condition.length == 4){
-            result = entityManager.createQuery(
-                            "SELECT mainData.columnValue, count(e) " +
-                                    "FROM KeyValueEntity e " +
-                                    "JOIN e.columnDataList mainData ON mainData.columnName = '" + xcolumn + "' " +
-                                    "JOIN e.columnDataList conditionData1 ON conditionData1.columnName = '" + condition[0] + "' " +
-                                    "JOIN e.columnDataList conditionData2 ON conditionData2.columnName = '" + condition[2] + "' " +
-                                    "WHERE conditionData1.columnValue " + equal[0] + " '" + condition[1] + "' " +
-                                    option[0] + " " +
-                                    "conditionData2.columnValue " + equal[1] + " '" + condition[3] + "' " +
-                                    "GROUP BY mainData.columnValue",
-                            Object[].class)
-                    .getResultList();
-        }// 조건 2개
-
-        else if(condition.length == 6){
-            result = entityManager.createQuery(
-                            "SELECT mainData.columnValue, count(e) " +
-                                    "FROM KeyValueEntity e " +
-                                    "JOIN e.columnDataList mainData ON mainData.columnName = '" + xcolumn + "' " +
-                                    "JOIN e.columnDataList conditionData1 ON conditionData1.columnName = '" + condition[0] + "' " +
-                                    "JOIN e.columnDataList conditionData2 ON conditionData2.columnName = '" + condition[2] + "' " +
-                                    "JOIN e.columnDataList conditionData3 ON conditionData3.columnName = '" + condition[4] + "' " +
-                                    "WHERE conditionData1.columnValue " + equal[0] + " '" + condition[1] + "' " +
-                                    option[0] + " " +
-                                    "conditionData2.columnValue " + equal[1] + " '" + condition[3] + "' " +
-                                    option[1] + " " +
-                                    "conditionData3.columnValue " + equal[2] + " '" + condition[5] + "' " +
-                                    "GROUP BY mainData.columnValue",
-                            Object[].class)
-                    .getResultList();
-        } // 조건 3개
-
-        else if(condition.length == 8){
-            result = entityManager.createQuery(
-                            "SELECT mainData.columnValue, count(e) " +
-                                    "FROM KeyValueEntity e " +
-                                    "JOIN e.columnDataList mainData ON mainData.columnName = '" + xcolumn + "' " +
-                                    "JOIN e.columnDataList conditionData1 ON conditionData1.columnName = '" + condition[0] + "' " +
-                                    "JOIN e.columnDataList conditionData2 ON conditionData2.columnName = '" + condition[2] + "' " +
-                                    "JOIN e.columnDataList conditionData3 ON conditionData3.columnName = '" + condition[4] + "' " +
-                                    "JOIN e.columnDataList conditionData4 ON conditionData4.columnName = '" + condition[6] + "' " +
-                                    "WHERE conditionData1.columnValue " + equal[0] + " '" + condition[1] + "' " +
-                                    option[0] + " " +
-                                    "conditionData2.columnValue " + equal[1] + " '" + condition[3] + "' " +
-                                    option[1] + " " +
-                                    "conditionData3.columnValue " + equal[2] + " '" + condition[5] + "' " +
-                                    option[2] + " " +
-                                    "conditionData4.columnValue " + equal[3] + " '" + condition[7] + "' " +
-                                    "GROUP BY mainData.columnValue",
-                            Object[].class)
-                    .getResultList();
-        } // 조건 4개
-
-        else if(condition.length == 10){
-            result = entityManager.createQuery(
-                            "SELECT mainData.columnValue, count(e) " +
-                                    "FROM KeyValueEntity e " +
-                                    "JOIN e.columnDataList mainData ON mainData.columnName = '" + xcolumn + "' " +
-                                    "JOIN e.columnDataList conditionData1 ON conditionData1.columnName = '" + condition[0] + "' " +
-                                    "JOIN e.columnDataList conditionData2 ON conditionData2.columnName = '" + condition[2] + "' " +
-                                    "JOIN e.columnDataList conditionData3 ON conditionData3.columnName = '" + condition[4] + "' " +
-                                    "JOIN e.columnDataList conditionData4 ON conditionData4.columnName = '" + condition[6] + "' " +
-                                    "JOIN e.columnDataList conditionData4 ON conditionData4.columnName = '" + condition[8] + "' " +
-                                    "WHERE conditionData1.columnValue " + equal[0] + " '" + condition[1] + "' " +
-                                    option[0] + " " +
-                                    "conditionData2.columnValue " + equal[1] + " '" + condition[3] + "' " +
-                                    option[1] + " " +
-                                    "conditionData3.columnValue " + equal[2] + " '" + condition[5] + "' " +
-                                    option[2] + " " +
-                                    "conditionData4.columnValue " + equal[3] + " '" + condition[7] + "' " +
-                                    option[3] + " " +
-                                    "conditionData5.columnValue " + equal[4] + " '" + condition[9] + "' " +
-                                    "GROUP BY mainData.columnValue",
-                            Object[].class)
-                    .getResultList();
-        } // 조건 5개 end
-
-        else if(condition.length <= 1){
-            result = entityManager.createQuery(
-                            "SELECT mainData.columnValue, count(e) " +
-                                    "FROM KeyValueEntity e " +
-                                    "JOIN e.columnDataList mainData ON mainData.columnName = '" + xcolumn + "' " +
-                                    "GROUP BY mainData.columnValue",
-                            Object[].class)
-                    .getResultList();
-        } // 조건 x
 
         for (Object[] row : result) {
             String columnName = (String) row[0];

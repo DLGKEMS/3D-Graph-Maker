@@ -33,7 +33,7 @@ public class columController {
         // 받은 데이터 처리
 
         DbCRUD dbCRUD = new DbCRUD(entityManager, keyValueRepository);
-        dbCRUD.getNoConditionData(data.getSelectedValue(), data.getInput(), data.logicSelect, data.equalSelect);
+        dbCRUD.getConditionData(data.getSelectedValue(), data.getInput(), data.getLogicSelect(), data.getEqualSelect(), data.getColumnSelect());
         System.out.println("성공");
 
         // 클라이언트에 응답
@@ -52,6 +52,7 @@ public class columController {
         private String[] input;
         private String[] logicSelect;
         private String[] equalSelect;
+        private String[] columnSelect;
         public String getSelectedValue() {
             return selectedValue;
         }
@@ -60,8 +61,6 @@ public class columController {
         }
         public String[] getLogicSelect(){ return logicSelect; }
         public String[] getEqualSelect(){ return equalSelect; }
-
-
-
+        public String[] getColumnSelect(){return columnSelect;}
     }
 }
