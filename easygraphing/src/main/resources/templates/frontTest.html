@@ -98,7 +98,7 @@
                                             <option th:each="continent : ${columData}" th:value="${continent}" th:text="${continent.key}"></option>
                                         </select>
                                         <div class="button-container">
-                                        <button onclick="addStringInput('String')">문자열 조건 추가</button>
+                                        <button onclick="addStringInput()">문자열 조건 추가</button>
                                         <button onclick="addStringInput('Integer')">정수형 조건 추가</button>
                                         <button onclick="removeInput()">조건 삭제</button>
                                         <button id='submitBtn' onclick="sendSelectedData()">제출</button>

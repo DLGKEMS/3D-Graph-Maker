@@ -35,7 +35,7 @@ public class columController {
         DbCRUD dbCRUD = new DbCRUD(entityManager, keyValueRepository);
         dbCRUD.getConditionData(data.getSelectedValue(), data.getInput(), data.getLogicSelect(), data.getEqualSelect(), data.getColumnSelect());
         System.out.println("성공");
-
+        System.out.println(data.getIntegerInput().toString());
         // 클라이언트에 응답
         //return "Processed value: " + selectedValue;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -50,17 +50,22 @@ public class columController {
     public static class DataClass {
         private String selectedValue;
         private String[] input;
+        private String[] integerInput;
         private String[] logicSelect;
         private String[] equalSelect;
         private String[] columnSelect;
+        private String[] type;
+
         public String getSelectedValue() {
             return selectedValue;
         }
         public String[] getInput() {
             return input;
         }
+        public String[] getIntegerInput(){return integerInput;}
         public String[] getLogicSelect(){ return logicSelect; }
         public String[] getEqualSelect(){ return equalSelect; }
         public String[] getColumnSelect(){return columnSelect;}
+        public String[] getType(){return type;}
     }
 }
