@@ -39,7 +39,8 @@ function sendSelectedData() {
         data.equalSelect.push(equalSelect.value);
     });
     columnSelect.forEach(function (columnSelect){
-        data.columnSelect.push(columnSelect.value);
+        var selectedText = columnSelect.options[columnSelect.selectedIndex].text;
+        data.columnSelect.push(selectedText);
     })
 
 

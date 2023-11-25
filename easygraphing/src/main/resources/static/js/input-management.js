@@ -1,8 +1,9 @@
 var inputCount = 0; // 초기 input 개수
-//var inputIntegerCount = 0;
-
+var bool = false;
+var columnType = "";
+var equalSelect, StringInput, integerEqualSelect, IntegerInput1, IntegerInput2;
 function addStringInput() {
-    var bool = false;
+    bool = false;
     var columnType = "";
     var container = document.getElementById("inputs-container");
 
@@ -18,6 +19,16 @@ function addStringInput() {
         inputValue[keyvalue[0]] = keyvalue[1]; // 키와 값을 반대로 저장
     });
 
+    var logicSelect = document.createElement("select");
+    logicSelect.name = "logicSelector";
+    ["or", "and"].forEach(function (operator) {
+        const option = document.createElement("option");
+        option.value = operator;
+        option.text = operator;
+        logicSelect.appendChild(option);
+    });
+
+
     var newDiv = document.createElement("div"); // 새로운 div 생성
 
     var columnSelect = document.createElement("select");
@@ -27,11 +38,14 @@ function addStringInput() {
         const option = document.createElement("option");
         option.value = inputValue[key];
         option.text = key;
+        console.log(option.value, option.text)
         columnSelect.appendChild(option);
     });
 
     console.log("columnType", columnType)
-
+    if (inputCount >= 1) {
+        newDiv.appendChild(logicSelect);
+    }
     newDiv.appendChild(columnSelect); // newDiv에 select 추가
 
     // 여기서 다른 동작 수행 가능
@@ -39,14 +53,33 @@ function addStringInput() {
         // 선택된 옵션의 값을 가져오기
         var selectedText = columnSelect.options[columnSelect.selectedIndex].text; // 선택된 옵션의 텍스트
         var selectedValue = inputValue[selectedText];
+
         console.log(selectedText, selectedValue);
         columnType = selectedValue;
         if(bool){
-            newDiv.removeChild(equalSelect);
-            newDiv.removeChild(StringInput);
+            if (newDiv.contains(equalSelect)) {
+                newDiv.removeChild(equalSelect);
+                inputCount --;
+            }
+            if (newDiv.contains(StringInput)) {
+                newDiv.removeChild(StringInput);
+            }
+            if (newDiv.contains(integerEqualSelect)) {
+                newDiv.removeChild(integerEqualSelect);
+                inputCount = inputCount - 2;
+            }
+            if (newDiv.contains(IntegerInput1)) {
+                newDiv.removeChild(IntegerInput1);
+            }
+            if (newDiv.contains(IntegerInput2)) {
+                newDiv.removeChild(IntegerInput2);
+            }
+            bool = false;
         }
         if (columnType === "String") {
-            var equalSelect = document.createElement("select");
+            StringInput = document.createElement("input");
+            StringInput.type = "text";
+            equalSelect = document.createElement("select");
             equalSelect.name = "equalSelector";
             ["=", "!=", "LIKE"].forEach(function (operator) {
                 const equalOption = document.createElement("option");
@@ -55,9 +88,7 @@ function addStringInput() {
                 equalSelect.appendChild(equalOption);
             });
 
-            var StringInput = document.createElement("input");
             inputCount++;
-            StringInput.type = "text";
             StringInput.name = "dynamicInput [" + inputCount + "] ";
 
             newDiv.appendChild(equalSelect);
@@ -65,77 +96,45 @@ function addStringInput() {
             bool = true;
             console.log(inputCount)
         }
-    });
+        else if(columnType === "Integer"){
+            integerEqualSelect = document.createElement("select");
+            integerEqualSelect.name = "equalSelector";
+            ["=", "BETWIN", ">=", "<="].forEach(function (operator) {
+                const equalOption = document.createElement("option");
+                equalOption.value = operator;
+                equalOption.text = operator;
+                integerEqualSelect.appendChild(equalOption);
+            });
+            IntegerInput1 = document.createElement("input");
+            IntegerInput2 = document.createElement("input");
+            IntegerInput1.type = "text";
+            IntegerInput2.type = "text";
+            inputCount++;
+            IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
+            inputCount++;
+            IntegerInput2.name = "dynamicInput [" + inputCount + "] ";
 
-    container.appendChild(newDiv); // container에 newDiv 추가
+            newDiv.appendChild(integerEqualSelect);
+            newDiv.appendChild(IntegerInput1);
+            newDiv.appendChild(IntegerInput2);
+            bool = true;
+            doubleinput++;
+        }
     //columnSelect.addEventListener("change", onSelectChange);
+    });
+    container.appendChild(newDiv); // container에 newDiv 추가
 }
 
 function removeInput() {
     var container = document.getElementById("inputs-container");
     var inputs = container.querySelectorAll("div");
 
-    if(inputCount >= 2) {
-        inputCount = inputCount - 2;
-    }
+    // if(inputCount >= 2) {
+    //     inputCount = inputCount - 2;
+    // }
     // 최소 하나의 input을 유지하기 위해
     if (inputs.length > 0) {
         container.removeChild(inputs[inputs.length - 1]);
         inputCount--; // input 개수 감소
     }
 }
-
-function removeInput() {
-    var container = document.getElementById("inputs-container");
-    var inputs = container.querySelectorAll("div");
-
-    if(inputCount >= 2) {
-        inputCount = inputCount - 2;
-    }
-    // 최소 하나의 input을 유지하기 위해
-    if (inputs.length > 0) {
-        container.removeChild(inputs[inputs.length - 1]);
-        inputCount--; // input 개수 감소
-    }
-}
-// var logicSelect = document.createElement("select");
-// logicSelect.name = "logicSelector";
-// ["or", "and"].forEach(function (operator) {
-//     const option = document.createElement("option");
-//     option.value = operator;
-//     option.text = operator;
-//     logicSelect.appendChild(option);
-// });
-//
-// if (inputCount > 1) {
-//     newDiv.appendChild(logicSelect);
-// }// 조건이 2개 이상일때 logicSelect 생성
-//
-// newDiv.appendChild(columnText);
-//
-// container.appendChild(columnSelect);
-//
-// console.log("선택된 값 : ", columnSelect.value)
-// var selectedValue = columnSelect.value;
-// if(selectedValue === "String"){
-//
-//     var conditionText = document.createTextNode(" 조건 : ")
-//     var equalSelect = document.createElement("select");
-//     var StringInput = document.createElement("input");
-//
-//     equalSelect.name = "equalSelector";
-//     ["=", "!=", "LIKE"].forEach(function (operator) {
-//         const equalOption = document.createElement("option");
-//         equalOption.value = operator;
-//         equalOption.text = operator;
-//         equalSelect.appendChild(equalOption);
-//     });
-//
-//     inputCount++;
-//     StringInput.type = "text";
-//     StringInput.name = "dynamicInput [" + inputCount + "] ";
-//
-//     newDiv.appendChild(equalSelect);
-//     newDiv.appendChild(conditionText);
-//     newDiv.appendChild(StringInput);
-//     container.appendChild(newDiv);
