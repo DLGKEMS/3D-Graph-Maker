@@ -20,7 +20,7 @@ public class DbCRUD {
     }
 
     @Transactional
-    public Map<String, Long> getConditionData(String xcolumn, String[] condition, String[] option, String[] equal, String[] column) {
+    public Map<String, Long> getConditionData(String xcolumn, String[] condition, String[] logic, String[] equal, String[] column) {
 
         Map<String, Long> map = new HashMap<>();
         MemoryJson memoryJson = new MemoryJson();
@@ -39,8 +39,8 @@ public class DbCRUD {
             queryBuilder.append("WHERE ");
             for (int i = 0; i < condition.length; i++) {
                 //if(i==0){queryBuilder.append("WHERE ");}
-                if (i > 0 && i <= option.length) {
-                    queryBuilder.append("" + option[i - 1] + " ");
+                if (i > 0 && i <= logic.length) {
+                    queryBuilder.append("" + logic[i - 1] + " ");
                 }
                 String conditionString = "conditionData" + String.valueOf(i) + ".columnValue " + equal[i] + " '" + condition[i] + "' ";
                 queryBuilder.append(conditionString);

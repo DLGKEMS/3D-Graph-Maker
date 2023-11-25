@@ -35,7 +35,10 @@ public class columController {
         DbCRUD dbCRUD = new DbCRUD(entityManager, keyValueRepository);
         dbCRUD.getConditionData(data.getSelectedValue(), data.getInput(), data.getLogicSelect(), data.getEqualSelect(), data.getColumnSelect());
         System.out.println("성공");
-        System.out.println(data.getIntegerInput().toString());
+        for(int i = 0; i< data.getType().length; i++){
+            System.out.println(data.getType()[i]);
+        }
+
         // 클라이언트에 응답
         //return "Processed value: " + selectedValue;
         ObjectMapper objectMapper = new ObjectMapper();

@@ -19,7 +19,8 @@ function sendSelectedData() {
         equalSelect: [],
         columnSelect: [],
         input: [],
-        integerInput: []
+        integerInput: [],
+        type: []
     };
 
     // inputs.forEach(function(input, index) {
@@ -41,7 +42,10 @@ function sendSelectedData() {
     columnSelect.forEach(function (columnSelect){
         var selectedText = columnSelect.options[columnSelect.selectedIndex].text;
         data.columnSelect.push(selectedText);
-    })
+    });
+    columnSelect.forEach(function (columnSelect){
+        data.type.push(columnSelect.value);
+    });
 
 
     console.log(data)

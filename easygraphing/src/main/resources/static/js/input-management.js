@@ -66,13 +66,15 @@ function addStringInput() {
             }
             if (newDiv.contains(integerEqualSelect)) {
                 newDiv.removeChild(integerEqualSelect);
-                inputCount = inputCount - 2;
+                // inputCount = inputCount - 1;
             }
             if (newDiv.contains(IntegerInput1)) {
                 newDiv.removeChild(IntegerInput1);
+                inputCount --;
             }
             if (newDiv.contains(IntegerInput2)) {
-                newDiv.removeChild(IntegerInput2);
+                newDiv.removeChild(IntegerInput2)
+                inputCount --;;
             }
             bool = false;
         }
@@ -105,20 +107,50 @@ function addStringInput() {
                 equalOption.text = operator;
                 integerEqualSelect.appendChild(equalOption);
             });
+            inputCount++;
             IntegerInput1 = document.createElement("input");
-            IntegerInput2 = document.createElement("input");
             IntegerInput1.type = "text";
+            IntegerInput2 = document.createElement("input");
             IntegerInput2.type = "text";
-            inputCount++;
-            IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
-            inputCount++;
-            IntegerInput2.name = "dynamicInput [" + inputCount + "] ";
 
+            IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
             newDiv.appendChild(integerEqualSelect);
             newDiv.appendChild(IntegerInput1);
-            newDiv.appendChild(IntegerInput2);
             bool = true;
-            doubleinput++;
+
+            integerEqualSelect.addEventListener("change", function () {
+                if(bool){
+                    if (newDiv.contains(IntegerInput1)) {
+                        newDiv.removeChild(IntegerInput1);
+                        inputCount--;
+                    }
+                    if (newDiv.contains(IntegerInput2)) {
+                        newDiv.removeChild(IntegerInput2);
+                        inputCount--;
+                    }
+                    if(newDiv.contains(integerEqualSelect)){
+                        newDiv.removeChild(integerEqualSelect);
+                    }
+                }
+                if (integerEqualSelect.options[integerEqualSelect.selectedIndex].text === "=") {
+                    inputCount++;
+                    IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
+                    newDiv.appendChild(integerEqualSelect);
+                    newDiv.appendChild(IntegerInput1);
+                    bool = true;
+                }
+                else {
+                    inputCount++;
+                    IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
+                    inputCount++;
+                    IntegerInput2.name = "dynamicInput [" + inputCount + "] ";
+
+                    newDiv.appendChild(IntegerInput1);
+                    newDiv.appendChild(integerEqualSelect);
+                    newDiv.appendChild(IntegerInput2);
+                    bool = true;
+                }
+            });
         }
     //columnSelect.addEventListener("change", onSelectChange);
     });
@@ -135,6 +167,11 @@ function removeInput() {
     // 최소 하나의 input을 유지하기 위해
     if (inputs.length > 0) {
         container.removeChild(inputs[inputs.length - 1]);
-        inputCount--; // input 개수 감소
+        if(inputs.length < inputCount){
+            inputCount = inputCount - 2;
+        }
+        else {
+            inputCount--; // input 개수 감소
+        }
     }
 }
