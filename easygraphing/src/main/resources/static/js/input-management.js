@@ -101,7 +101,7 @@ function addStringInput() {
         else if(columnType === "Integer"){
             integerEqualSelect = document.createElement("select");
             integerEqualSelect.name = "equalSelector";
-            ["=", "BETWIN", ">=", "<="].forEach(function (operator) {
+            ["=", "BETWEEN", ">=", "<="].forEach(function (operator) {
                 const equalOption = document.createElement("option");
                 equalOption.value = operator;
                 equalOption.text = operator;
@@ -132,14 +132,7 @@ function addStringInput() {
                         newDiv.removeChild(integerEqualSelect);
                     }
                 }
-                if (integerEqualSelect.options[integerEqualSelect.selectedIndex].text === "=") {
-                    inputCount++;
-                    IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
-                    newDiv.appendChild(integerEqualSelect);
-                    newDiv.appendChild(IntegerInput1);
-                    bool = true;
-                }
-                else {
+                if (integerEqualSelect.options[integerEqualSelect.selectedIndex].text === "BETWEEN") {
                     inputCount++;
                     IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
                     inputCount++;
@@ -148,6 +141,13 @@ function addStringInput() {
                     newDiv.appendChild(IntegerInput1);
                     newDiv.appendChild(integerEqualSelect);
                     newDiv.appendChild(IntegerInput2);
+                    bool = true;
+                }
+                else {
+                    inputCount++;
+                    IntegerInput1.name = "dynamicInput [" + inputCount + "] ";
+                    newDiv.appendChild(integerEqualSelect);
+                    newDiv.appendChild(IntegerInput1);
                     bool = true;
                 }
             });

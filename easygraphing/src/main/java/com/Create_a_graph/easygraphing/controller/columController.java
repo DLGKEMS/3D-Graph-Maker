@@ -33,10 +33,10 @@ public class columController {
         // 받은 데이터 처리
 
         DbCRUD dbCRUD = new DbCRUD(entityManager, keyValueRepository);
-        dbCRUD.getConditionData(data.getSelectedValue(), data.getInput(), data.getLogicSelect(), data.getEqualSelect(), data.getColumnSelect());
+        dbCRUD.getConditionData(data.getSelectedValue(), data.getInput(), data.getLogicSelect(), data.getEqualSelect(), data.getColumnSelect(), data.getType());
         System.out.println("성공");
         for(int i = 0; i< data.getType().length; i++){
-            System.out.println(data.getType()[i]);
+            System.out.println(data.getType());
         }
 
         // 클라이언트에 응답
