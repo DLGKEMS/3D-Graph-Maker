@@ -20,25 +20,23 @@ public class MemoryJson {
         jsonObject = null;
         storeMap.clear();
     }
-    public void storeMapClearing(){
-        storeMap.clear();
-    }
-//    public void resultClearing(){
-//        jsonObject = null;
+//    public void storeMapClearing(){
+//        storeMap.clear();
 //    }
-    public JSONArray getJsonArray(){
-        return jsonArray;
-    }
-    public void setJsonArray(JSONArray jsonArray1){
-        MemoryJson.jsonArray = jsonArray1;
-        //System.out.println("JsonArray : " + MemoryJson.jsonArray);
-    }
-    public JSONObject getJsonObject() {
-        return jsonObject;
-    }
-    public void setJsonObject(JSONObject jsonObject) {
-        MemoryJson.jsonObject = jsonObject;
-    }
+//
+//    public JSONArray getJsonArray(){
+//        return jsonArray;
+//    }
+//    public void setJsonArray(JSONArray jsonArray1){
+//        MemoryJson.jsonArray = jsonArray1;
+//        //System.out.println("JsonArray : " + MemoryJson.jsonArray);
+//    }
+    //public JSONObject getJsonObject() {
+    //    return jsonObject;
+    //}
+    //public void setJsonObject(JSONObject jsonObject) {
+       // MemoryJson.jsonObject = jsonObject;
+    //}
     public void setColum(Map<String, String> columType){
         MemoryJson.culumList_type = columType;
     }

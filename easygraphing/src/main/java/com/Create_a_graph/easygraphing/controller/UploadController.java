@@ -29,6 +29,10 @@ public class UploadController {
     @Autowired
     private KeyValueEntityRepository keyValueRepository;
 
+    @GetMapping("")
+    public String index(){
+        return "sqltest";
+    }
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
