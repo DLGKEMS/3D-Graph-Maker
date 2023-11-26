@@ -19,13 +19,13 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
-                        <div class="card-header"><h3 class="text-center font-weight-light my-4">3D Graph Maker</h3></div>
+                        <div class="card-header"><h3 class="text-center font-weight-bold my-4">3D Graph Maker</h3></div>
                         <div class="card-body">
                             <div class="small mb-3 text-muted">.csv 파일을 넣어주세요.</div>
                             <form action="/upload" method="post" enctype="multipart/form-data" id="form-upload-file">
-                                <div class="d-flex flex-column">
+                                <div class="d-flex flex-column align-items-center">
                                     <input type="file" name="file" accept=".csv" class="form-control" required>
-                                    <button type="submit" class="btn btn-primary mt-2" id="btn-upload-file">업로드</button>
+                                    <button type="submit" class="btn btn-primary mt-2 btn-3d red" id="btn-upload-file">Upload</button>
                                 </div>
                             </form>
                         </div>

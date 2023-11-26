@@ -27,3 +27,54 @@ body{
 ::-webkit-scrollbar {
     display: none;
 }
+
+#layoutAuthentication{
+    background: var(--bs-gray-400);
+}
+
+#btn-upload-file{
+    background: #e74c3c;
+    border-width: 0px;
+}
+
+.font-weight-bold{
+    font-weight : bold;
+}
+
+.btn-3d {
+    position: relative;
+    display: inline-block;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    margin: 20px 10px 10px;
+    border-radius: 6px;
+    text-align: center;
+    transition: top .01s linear;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+    width: 10rem;
+}
+.btn-3d.red:hover    {background-color: #e74c3c;}
+.btn-3d.blue:hover   {background-color: #699DD1;}
+.btn-3d.green:hover  {background-color: #80C49D;}
+.btn-3d.purple:hover {background-color: #D19ECB;}
+.btn-3d.yellow:hover {background-color: #F0D264;}
+.btn-3d.cyan:hover   {background-color: #82D1E3;}
+
+.btn-3d:active {
+    top: 9px;
+}
+
+.btn-3d.red {
+    background-color: #e74c3c;
+    box-shadow: 0 0 0 1px #c63702 inset,
+    0 0 0 2px rgba(255,255,255,0.15) inset,
+    0 8px 0 0 #C24032,
+    0 8px 0 1px rgba(0,0,0,0.4),
+    0 8px 8px 1px rgba(0,0,0,0.5);
+}
+.btn-3d.red:active {
+    box-shadow: 0 0 0 1px #c63702 inset,
+    0 0 0 2px rgba(255,255,255,0.15) inset,
+    0 0 0 1px rgba(0,0,0,0.4);
+}

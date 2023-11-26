@@ -27,8 +27,6 @@ function addStringInput() {
         option.text = operator;
         logicSelect.appendChild(option);
     });
-
-
     var newDiv = document.createElement("div"); // 새로운 div 생성
 
     var columnSelect = document.createElement("select");

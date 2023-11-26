@@ -32,7 +32,6 @@ export default function init(resultData){
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     const controls = new OrbitControls( camera, renderer.domElement );
-
     // set renderer
     // renderer.shadowMap.enabled = true;
     // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -47,7 +46,14 @@ export default function init(resultData){
     canvasBox.appendChild( renderer.domElement  );
 
     // set camera
-    camera.position.set( 10, 10, 10 );
+    if(graphType==="bar") {
+        camera.position.set(0, 10, 10);
+        controls.target.y = 7.5;
+    } else {
+        camera.position.set(0, 3, 3);
+        controls.target.y = 1.5;
+    }
+
     controls.update();
 
     // set light
@@ -90,10 +96,13 @@ export default function init(resultData){
 
     // make bar graph
     if(graphType==="bar"){
-        let count = 0;
+        let count = 0 - Math.round( Object.keys(dataObject).length / 2);
+        let colorCount =0
+        console.log(count)
         Object.keys(dataObject).forEach(function(key,index) {
-            makeGraph(count,dataObject[key], scene, colors[count], maxData);
+            makeGraph(count,dataObject[key], scene, colors[colorCount], maxData);
             count+=1;
+            colorCount+=1;
         });
     }
 
@@ -103,10 +112,12 @@ export default function init(resultData){
     }
 
     // 이미지 저장 기능 추가
-    const btnImage = document.getElementById('btn-create-image');
-    btnImage.addEventListener('click',()=>{
-        createImage(renderer);
-    })
+    // const btnImage = document.getElementById('btn-create-image');
+    //
+    // btnImage.onclick = null;
+    // btnImage.addEventListener('click',()=>{
+    //     createImage(renderer);
+    // })
 
     // 옆 내용 추가
     createContent(dataObject,colors);
@@ -192,10 +203,14 @@ function makePieGraph(dataObject,colors,scene){
 
     let currentAngle = -Math.PI / 2;
     let count = 0;
+    const height = 0.5;
+
     Object.keys(dataObject).forEach(key => {
-        const geometry = new THREE.CylinderGeometry(1, 1, 0.2, 64, 1, false, currentAngle, Math.PI * 2 * (dataObject[key] / totalValue));
+        const geometry = new THREE.CylinderGeometry(1.5, 1.5,  height, 64, 1, false, currentAngle, Math.PI * 2 * (dataObject[key] / totalValue));
         const material = new THREE.MeshBasicMaterial({ color: colors[count], side: THREE.DoubleSide });
         const pieSegment = new THREE.Mesh(geometry, material);
+        pieSegment.position.set(0, height/2,0)
+
         scene.add(pieSegment);
 
         currentAngle += Math.PI * 2 * (dataObject[key] / totalValue);
@@ -208,8 +223,6 @@ function createImage(renderer){
     const strMime = 'image/jpeg';
     let img;
         try {
-            // 텍스트용
-            // console.log(document.getElementById('canvas-box').children[0]);
             html2canvas(document.querySelector("#canvas-text-box")).then(canvas => {
                 let test=canvas.toDataURL('image/jpeg')
                 let link2 = document.createElement('a')
@@ -242,18 +255,30 @@ function createContent(dataObject,colors){
     let count =0;
     Object.keys(dataObject).forEach(function(key) {
         const div = document.createElement("div")
-        div.className="col-6 d-flex"
+        div.className="col-12 d-flex align-items-center mt-2"
+
+        const div2 = document.createElement("div")
+        div2.className="col-9 d-flex align-items-center"
+
         const p = document.createElement("p");
-        p.textContent = `${key}(${dataObject[key]})`;
-        p.className="w-50"
-        div.appendChild(p);
+        p.textContent = `${key}`;
+        p.className="mb-0"
+        p.style.fontWeight="bold"
+        div2.appendChild(p);
+
+        const span = document.createElement("span");
+        span.textContent = dataObject[key];
+        span.className="badge bg-primary ml-2";
+        div2.appendChild(span);
+
+        div.appendChild(div2);
 
         const colorDiv = document.createElement("div");
         colorDiv.style.background=colors[count];
-        colorDiv.style.height='4px';
-        colorDiv.className="w-50"
-        colorDiv.style.marginTop="10px"
+        colorDiv.style.height='10px';
+        colorDiv.className="w-50 col-3"
         div.appendChild(colorDiv);
+
         ctb.appendChild(div);
         count +=1;
     });
