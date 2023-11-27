@@ -39,6 +39,7 @@ public class CsvUtils {
             } // {character=최애의갓근, address=경기도 안산시 단원구 고잔동 616-3, name=장영근, id=1, age=26}
             memoryJson.setColum(MakeColumneMap.creatColumMap(columns, header));
 
+
             return entities;
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);

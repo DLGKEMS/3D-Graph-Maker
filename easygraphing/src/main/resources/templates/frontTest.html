@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
+<!--        table-->
+        <style>
+            table {border-collapse: collapse;width: 100%;}
+            th, td {border: 1px solid #dddddd;text-align: left;padding: 8px;}
+            th {background-color: #f2f2f2;}
+        </style>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<!---->
+
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -107,20 +119,50 @@
                                 </div>
                             </div>
                         </div>
+                            <div class="card mb-4">
+                                <div id="table-container" class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-table me-1"></i>
+                                        DataTable Example
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="dataTable">
+                                            <!-- Table will be generated here -->
+                                        </table>
 
-                        <div class="card mb-4 ">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                // Get JSON data from hidden input
+                                                const jsonInput = document.getElementById('json');
+                                                const jsonData = JSON.parse(jsonInput.value);
+
+                                                // Create table
+                                                const table = document.getElementById('dataTable');
+
+                                                // Create table header
+                                                const headerRow = document.createElement('tr');
+                                                for (const header of jsonData[0]) {
+                                                    const th = document.createElement('th');
+                                                    th.textContent = header;
+                                                    headerRow.appendChild(th);
+                                                }
+                                                table.appendChild(headerRow);
+
+                                                // Create table body
+                                                for (let i = 1; i < jsonData.length; i++) {
+                                                    const dataRow = document.createElement('tr');
+                                                    for (const data of jsonData[i]) {
+                                                        const td = document.createElement('td');
+                                                        td.textContent = data;
+                                                        dataRow.appendChild(td);
+                                                    }
+                                                    table.appendChild(dataRow);
+                                                }
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-
-
-
-                                </table>
-                            </div>
-                        </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header d-flex align-items-center justify-content-between">
@@ -146,6 +188,7 @@
             <input type="hidden" id="graph-type" value="bar">
             <input type="hidden" id="columnData" th:value="${columData}">
             <input type="hidden" id="resultData" th:value="${jsonData}">
+            <input type="hidden" id="json" th:value="${json}">
         </div>
 <!--        <script src="/js/index.js" type="module"></script>-->
         <script src="/js/create-graph-data.js" type="module"></script>

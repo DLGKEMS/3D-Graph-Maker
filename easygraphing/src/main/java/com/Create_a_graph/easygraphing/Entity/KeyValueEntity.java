@@ -15,10 +15,10 @@ public class KeyValueEntity {
     private List<ColumnData> columnDataList = new ArrayList<>();
     //private Integer columnCount = 0;
 
-//    public List<ColumnData> getColumnDataList(){
-//        return columnDataList;
-//    }
-//    public Long getId(){return id;}
+    public List<ColumnData> getColumnDataList(){
+        return columnDataList;
+    }
+    public Long getId(){return id;}
     public void addColumn(String columnName, String columnValue) {
         ColumnData columnData = new ColumnData(columnName, columnValue);
         columnDataList.add(columnData);

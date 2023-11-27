@@ -1,42 +1,31 @@
 package com.Create_a_graph.easygraphing.repository;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryJson {
-    private static JSONArray jsonArray;
+    private static String json;
     private static Map<String, String> culumList_type;
     private static JSONObject jsonObject;
     private static Map<String, Long> storeMap = new HashMap<String, Long>();
     private static String selectColume = "";
 
+
 ////////////////////////////////
     public void clearing(){
-        jsonArray = null;
+        json = null;
         culumList_type = null;
         jsonObject = null;
         storeMap.clear();
     }
-//    public void storeMapClearing(){
-//        storeMap.clear();
-//    }
-//
-//    public JSONArray getJsonArray(){
-//        return jsonArray;
-//    }
-//    public void setJsonArray(JSONArray jsonArray1){
-//        MemoryJson.jsonArray = jsonArray1;
-//        //System.out.println("JsonArray : " + MemoryJson.jsonArray);
-//    }
-    //public JSONObject getJsonObject() {
-    //    return jsonObject;
-    //}
-    //public void setJsonObject(JSONObject jsonObject) {
-       // MemoryJson.jsonObject = jsonObject;
-    //}
+    public void setJson(String jsons){
+        json = jsons;
+    }
+    public String getJson(){
+        return json;
+    }
     public void setColum(Map<String, String> columType){
         MemoryJson.culumList_type = columType;
     }

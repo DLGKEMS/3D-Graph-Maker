@@ -4,6 +4,7 @@ import com.Create_a_graph.easygraphing.Entity.KeyValueEntity;
 import com.Create_a_graph.easygraphing.repository.KeyValueEntityRepository;
 import com.Create_a_graph.easygraphing.repository.MemoryJson;
 import com.Create_a_graph.easygraphing.service.CsvUtils;
+import com.Create_a_graph.easygraphing.service.JsonConversion;
 import com.Create_a_graph.easygraphing.service.ResetIncrement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,24 +36,33 @@ public class UploadController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
         try {
             keyValueRepository.deleteAll();
             resetIncrement.resetAutoIncrement("key_value_data");
             resetIncrement.resetAutoIncrement("key_value_entity");
             List<KeyValueEntity> entities = CsvUtils.readFromCsv(file);
             keyValueRepository.saveAll(entities);
+
+            JsonConversion jsonConversion = new JsonConversion();
+            jsonConversion.createJson(file);
+
             return "redirect:/frontTest";
         } catch (IOException e) {
             e.printStackTrace();
             return "redirect:/error";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
     @GetMapping("frontTest")
     public String showData(Model model){
         MemoryJson memoryJson = new MemoryJson();
         Map<String, String> columns = memoryJson.getColum();
+        String json = memoryJson.getJson();
         model.addAttribute("columData", columns);
+        model.addAttribute("json", json);
+//        model.addAttribute();
         return "frontTest";
     }
 
