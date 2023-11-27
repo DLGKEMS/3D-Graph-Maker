@@ -32,9 +32,10 @@ body{
     background: var(--bs-gray-400);
 }
 
-#btn-upload-file{
+#btn-create-image{
     background: #e74c3c;
     border-width: 0px;
+    font-weight : bold;
 }
 
 .font-weight-bold{
@@ -54,15 +55,14 @@ body{
     text-shadow: 0 1px 0 rgba(0,0,0,0.15);
     width: 10rem;
 }
-.btn-3d.red:hover    {background-color: #e74c3c;}
-.btn-3d.blue:hover   {background-color: #699DD1;}
-.btn-3d.green:hover  {background-color: #80C49D;}
-.btn-3d.purple:hover {background-color: #D19ECB;}
-.btn-3d.yellow:hover {background-color: #F0D264;}
-.btn-3d.cyan:hover   {background-color: #82D1E3;}
+.btn-3d.red:hover    {
+    background-color: #e74c3c;
+    color:white;
+}
 
 .btn-3d:active {
     top: 9px;
+    background-color: #e74c3c!important;
 }
 
 .btn-3d.red {
@@ -72,9 +72,14 @@ body{
     0 8px 0 0 #C24032,
     0 8px 0 1px rgba(0,0,0,0.4),
     0 8px 8px 1px rgba(0,0,0,0.5);
+    border-color: #e74c3c!important;
 }
 .btn-3d.red:active {
     box-shadow: 0 0 0 1px #c63702 inset,
     0 0 0 2px rgba(255,255,255,0.15) inset,
     0 0 0 1px rgba(0,0,0,0.4);
+}
+
+.button-container{
+
 }

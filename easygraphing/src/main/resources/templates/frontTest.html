@@ -108,10 +108,10 @@
 <!--                                            <option th:each="continent : ${columData.keySet()}" th:value="${continent}" th:text="${continent}"></option>-->
                                             <option th:each="continent : ${columData}" th:value="${continent}" th:text="${continent.key}"></option>
                                         </select>
-                                        <div class="button-container">
-                                        <button onclick="addStringInput()">조건 추가</button>
-                                        <button onclick="removeInput()">조건 삭제</button>
-                                        <button id='submitBtn' onclick="sendSelectedData()">제출</button>
+                                        <div class="d-flex">
+                                            <button onclick="addStringInput()" class="btn-3d red">조건 추가</button>
+                                            <button onclick="removeInput()" class="btn-3d red">조건 삭제</button>
+                                            <button id='submitBtn' onclick="sendSelectedData()"  class="btn-3d red">제출</button>
                                         </div>
                                         <label><h3>조건 선택</h3></label>
                                         <div id="inputs-container"></div>
@@ -126,7 +126,7 @@
                                         DataTable Example
                                     </div>
                                     <div class="card-body">
-                                        <table id="dataTable">
+                                        <table id="datatablesSimple">
                                             <!-- Table will be generated here -->
                                         </table>
 
@@ -137,18 +137,21 @@
                                                 const jsonData = JSON.parse(jsonInput.value);
 
                                                 // Create table
-                                                const table = document.getElementById('dataTable');
+                                                const table = document.getElementById('datatablesSimple');
 
                                                 // Create table header
+                                                const theaderRow = document.createElement('thead');
                                                 const headerRow = document.createElement('tr');
                                                 for (const header of jsonData[0]) {
                                                     const th = document.createElement('th');
                                                     th.textContent = header;
                                                     headerRow.appendChild(th);
                                                 }
-                                                table.appendChild(headerRow);
+                                                theaderRow.appendChild(headerRow)
+                                                table.appendChild(theaderRow);
 
                                                 // Create table body
+                                                const tbodyRow = document.createElement('tbody');
                                                 for (let i = 1; i < jsonData.length; i++) {
                                                     const dataRow = document.createElement('tr');
                                                     for (const data of jsonData[i]) {
@@ -156,8 +159,9 @@
                                                         td.textContent = data;
                                                         dataRow.appendChild(td);
                                                     }
-                                                    table.appendChild(dataRow);
+                                                    tbodyRow.appendChild(dataRow);
                                                 }
+                                                table.appendChild(tbodyRow)
                                             });
                                         </script>
                                     </div>
@@ -170,7 +174,7 @@
                                     <i class="fas fa-table me-1"></i>
                                     3D Graph
                                 </div>
-                                <button id="btn-create-image" class="btn btn-primary">이미지로 저장</button>
+                                <button id="btn-create-image" class="btn btn-3d red">이미지로 저장</button>
                             </div>
                             <div class="card-body d-flex flex-row p-0">
                                 <div class="col-9 p-0">
