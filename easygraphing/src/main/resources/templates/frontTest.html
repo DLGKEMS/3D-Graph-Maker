@@ -99,12 +99,12 @@
                                             </div>
                                         </form>
 
-                                        <label><h3>컬럼 선택</h3></label>-->
+                                        <label><h3>컬럼 선택</h3></label>
                                         <select class="custom-select" name="selectedOption">
 <!--                                            <option th:each="continent : ${columData.keySet()}" th:value="${continent}" th:text="${continent}"></option>-->
                                             <option th:each="continent : ${columData}" th:value="${continent}" th:text="${continent.key}"></option>
                                         </select>
-                                        <div class="d-flex">
+                                        <div class="d-flex justify-content-evenly m-3">
                                             <button onclick="addStringInput()" class="btn-3d red">조건 추가</button>
                                             <button onclick="removeInput()" class="btn-3d red">조건 삭제</button>
                                             <button id='submitBtn' onclick="sendSelectedData()"  class="btn-3d red">제출</button>
@@ -178,7 +178,7 @@
                                     <i class="fas fa-table me-1"></i>
                                     3D Graph
                                 </div>
-                                <button id="btn-create-image" class="btn btn-3d red">이미지로 저장</button>
+                                <button id="btn-create-image" class="btn btn-3d red">Downloads Image</button>
                             </div>
                             <div class="card-body d-flex flex-row p-0">
                                 <div class="col-9 p-0">

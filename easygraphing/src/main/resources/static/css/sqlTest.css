@@ -4,6 +4,10 @@
     visibility: hidden;
 }
 
+h3{
+    font-weight: bold!important;
+}
+
 #layoutAuthentication{
     flex-direction: row;
     justify-content: center;

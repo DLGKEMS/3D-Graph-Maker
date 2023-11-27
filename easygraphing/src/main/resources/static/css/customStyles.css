@@ -57,3 +57,11 @@
     0 0 0 2px rgba(255,255,255,0.15) inset,
     0 0 0 1px rgba(0,0,0,0.4);
 }
+
+h3{
+    font-weight: bold!important;
+}
+.form-check-input:checked {
+    background-color:#e74c3c!important; ;
+    border-color: #e74c3c!important;
+}
