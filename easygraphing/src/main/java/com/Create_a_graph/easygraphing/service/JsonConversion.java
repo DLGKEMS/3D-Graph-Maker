@@ -25,7 +25,7 @@ public class JsonConversion {
     private List<String[]> readCSV(MultipartFile file) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             return reader.lines()
-                    .limit(30)
+                    .limit(300)
                     .map(line -> line.split(","))  // CSV의 구분자에 따라 수정
                     .collect(Collectors.toList());
         }
