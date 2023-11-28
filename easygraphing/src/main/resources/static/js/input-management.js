@@ -3,6 +3,7 @@ var bool = false;
 var columnType = "";
 var equalSelect, StringInput, integerEqualSelect, IntegerInput1, IntegerInput2;
 function addStringInput() {
+    console.log("inputCount : ", inputCount);
     bool = false;
     var columnType = "";
     var container = document.getElementById("inputs-container");
@@ -44,6 +45,7 @@ function addStringInput() {
     if (inputCount >= 1) {
         newDiv.appendChild(logicSelect);
     }
+    inputCount++;
     newDiv.appendChild(columnSelect); // newDiv에 select 추가
 
     // 여기서 다른 동작 수행 가능
